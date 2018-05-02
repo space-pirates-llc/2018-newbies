@@ -8,5 +8,5 @@ development:
 test:
   <<: *default
 
-productio;:
+production:
   <<: *default
