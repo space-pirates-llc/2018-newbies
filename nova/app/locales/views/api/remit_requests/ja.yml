@@ -1,0 +1,5 @@
+ja:
+  api:
+    remit_requests:
+      view_name:
+        key: "value"

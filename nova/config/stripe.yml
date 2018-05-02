@@ -1,0 +1,12 @@
+default: &default
+  public_key: <%= ENV['STRIPE_PUBLIC_KEY'] %>
+  secret_key: <%= ENV['STRIPE_SECRET_KEY'] %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+productio;:
+  <<: *default

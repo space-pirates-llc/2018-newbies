@@ -1,0 +1,42 @@
+doctype 5
+html(lang="#{I18n.locale}" class="#{html_classes.join(' ')}")
+  head
+    meta(charset="utf-8")
+    = display_meta_tags(default_meta_tags)
+    = stylesheet_link_tag :application, media: 'all'
+    = javascript_include_tag :application, defer: true
+    = content_for?(:head) ? yield(:head) : nil
+  body
+    - if content_for?(:body)
+      = yield(:body)
+    - else
+      .hero.is-light
+        .hero-head
+          .navbar
+            .container
+                .navbar-menu
+                  .navbar-end
+                    - if logged_in?
+                      span.navbar-item
+                        = link_to 'Dashboard', dashboard_path, class: 'button is-primary'
+                      span.navbar-item
+                        = link_to 'Logout', logout_path, class: 'button is-inverted is-dark'
+                    - else
+                      span.navbar-item
+                        = link_to 'Login', login_path, class: 'button is-inverted is-dark'
+                      span.navbar-item
+                        = link_to 'Signup', signup_path, class: 'button is-primary'
+        .hero-body
+          .container
+            .columns
+              .column.is-8.is-offset-2
+                h1.title Nova
+                p.subtitle= meta_tags[:title] || default_meta('title')
+
+      .section
+        .container
+          .columns
+            .column.is-8.is-offset-2
+
+              = yield
+

@@ -1,0 +1,5 @@
+ja:
+  api:
+    credit_cards:
+      action_name:
+        key: "value"

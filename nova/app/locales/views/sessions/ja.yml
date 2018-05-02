@@ -1,0 +1,8 @@
+ja:
+  sessions:
+    new:
+      title: "Login"
+      submit: "ログイン"
+    create:
+      title: "Login"
+      submit: "ログイン"

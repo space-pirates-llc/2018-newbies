@@ -1,0 +1,23 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./tmp/db:/var/lib/mysql:cached
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    ports:
+      - "3307:3306"
+  rails:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app/nova:cached
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOST: "db"
+    depends_on:
+      - db

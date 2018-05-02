@@ -1,0 +1,5 @@
+ja:
+  api:
+    credit_cards:
+      view_name:
+        key: "value"

@@ -1,0 +1,13 @@
+ja:
+  activerecord:
+    models:
+      credit_card: "CreditCard"
+    attributes:
+      credit_card:
+        id: "ID"
+        user: "User"
+        brand: "Brand"
+        last4: "Last4"
+        exp_year: "ExpYear"
+        exp_month: "ExpMonth"
+        stripe_id: "StripeId"

@@ -1,0 +1,5 @@
+ja:
+  api:
+    application:
+      view_name:
+        key: "value"

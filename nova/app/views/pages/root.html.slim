@@ -1,0 +1,93 @@
+ruby:
+  set_meta_tags(
+    title: 'A brand new personal money transfering service',
+    reverse: false
+  )
+
+section.hero.is-dark.is-bold.is-medium
+  .hero-head
+    .navbar
+      .container
+          .navbar-menu
+            .navbar-end
+              - if logged_in?
+                span.navbar-item
+                  = link_to 'Dashboard', dashboard_path, class: 'button is-primary'
+              - else
+                span.navbar-item
+                  = link_to 'Login', login_path, class: 'button is-inverted is-dark'
+                span.navbar-item
+                  = link_to 'Signup', signup_path, class: 'button is-primary'
+  .hero-body
+    .container
+      .columns
+        .column.is-6.is-offset-3
+          h1.title Nova
+          p.subtitle A brand new personal money transfering service.
+
+.section
+  .container
+    .columns
+      .column.is-6.is-offset-3
+        nav.level.has-text-grey
+          .level-item.has-text-centered
+            div
+              p.heading Users
+              p.title 50,000+
+          .level-item.has-text-centered
+            div
+              p.heading Remit / month
+              p.title 3Million JPY
+          .level-item.has-text-centered
+            div
+              p.heading SLA
+              p.title 99.999%
+
+.section
+  .container
+    .columns
+      .column.is-6.is-offset-3
+        .content
+          h2 What's about "Nova"
+
+          p The quick brown fox jumps over the lazy dog.
+
+          table.table.is-fullwidth.is-striped
+            thead
+              tr
+                th Service
+                th Personal remitting
+                th Charge by Credit
+                th Use on real
+            tbody
+              tr
+                td PayPal
+                td.has-text-danger No
+                td.has-text-success Yes
+                td.has-text-danger No
+              tr
+                td LINE Pay
+                td.has-text-success Yes
+                td.has-text-danger No(lie)
+                td.has-text-danger No
+              tr
+                td Kyash
+                td.has-text-success Yes
+                td.has-text-success Yes
+                td.has-text-danger No
+              tr.has-text-weight-bold
+                td Nova
+                td.has-text-success Yes
+                td.has-text-success Yes
+                td.has-text-success Yes(in Feature)
+
+          h2 Simple, Fast and Smart
+
+          p The quick brown fox jumps over the lazy dog.
+
+.footer
+  .container
+    .columns
+      .column.is-6.is-offset-3
+        .content.has-text-centered
+          | &copy; 2018 Money Forward

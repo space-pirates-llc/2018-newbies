@@ -1,0 +1,103 @@
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - bin/*
+    - node_modules/**/*
+    - vendor/bundle/**/*
+    - lib/templates/**/*
+    - lib/generators/**/templates/*
+    - db/schema.rb
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+    - config/application.rb
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+  Enabled: true
+
+Style/RegexpLiteral:
+  EnforcedStyle: percent_r
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  ExcludedMethods: []
+  Exclude:
+    - Guardfile
+    - config/initializers/*
+    - spec/**/*_spec.rb
+
+Metrics/BlockNesting:
+  CountBlocks: false
+  Max: 3
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 200
+
+Metrics/CyclomaticComplexity:
+  Max: 12
+
+Metrics/LineLength:
+  Max: 180
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ModuleLength:
+  Max: 200
+
+Metrics/ParameterLists:
+  Max: 5
+
+Metrics/PerceivedComplexity:
+  Max: 7
+
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - io
+    - id
+    - to
+    - by
+    - on
+    - in
+    - at
+
+Lint/UnusedBlockArgument:
+  IgnoreEmptyBlocks: true
+  AllowUnusedKeywordArguments: true
+
+Lint/UnusedMethodArgument:
+  AllowUnusedKeywordArguments: true
+  IgnoreEmptyMethods: true
+
+Performance/DoubleStartEndWith:
+  IncludeActiveSupportAliases: false
+
+Performance/RedundantMerge:
+  MaxKeyValuePairs: 2
+
+Rails/ActionFilter:
+  EnforcedStyle: action
+

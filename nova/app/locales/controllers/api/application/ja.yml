@@ -1,0 +1,5 @@
+ja:
+  api:
+    application:
+      errors:
+        unauthorized: "ログインが必要です"

@@ -1,0 +1,16 @@
+= form_for @user, url: signup_path do |f|
+  .field
+    = f.label :nickname
+    .control
+      = f.text_field :nickname, class: 'input'
+  .field
+    = f.label :email
+    .control
+      = f.email_field :email, class: 'input'
+  .field
+    = f.label :password
+    .control
+      = f.password_field :password, class: 'input'
+  .field
+    .control.has-text-right
+      = f.submit class: 'button is-primary'

@@ -1,0 +1,12 @@
+{
+  "name": "nova",
+  "private": true,
+  "scripts": {
+    "doc": "gitbook build",
+    "serve": "gitbook serve"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gitbook-cli": "^2.3.2"
+  }
+}
