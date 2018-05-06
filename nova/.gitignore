@@ -8,10 +8,13 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+log/*
+tmp/*
+!log/.keep
+!tmp/.keep
+
+tmp/pids/*
+!tmp/pids/.keep
 
 /node_modules
 /yarn-error.log
@@ -21,3 +24,6 @@
 .DS_Store
 /coverage
 _book
+.envrc
+
+.env.production
