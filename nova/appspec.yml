@@ -1,0 +1,28 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/nova/current
+permissions:
+   - object: /var/nova
+     pattern: "**"
+     mode: 775
+     owner: ubuntu
+     group: ubuntu
+hooks:
+  ApplicationStop:
+    - location: scripts/stop.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: scripts/clean.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/install.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 300
+      runas: ubuntu
