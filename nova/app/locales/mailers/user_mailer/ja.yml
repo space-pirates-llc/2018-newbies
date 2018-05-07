@@ -1,0 +1,6 @@
+ja:
+  user_mailer_mailer:
+    account_activation:
+      subject: "AccountActivation"
+    password_reset:
+      subject: "PasswordReset"

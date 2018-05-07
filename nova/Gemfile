@@ -20,6 +20,7 @@ gem 'meta-tags'
 gem 'slim-rails'
 gem 'stripe'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'bcrypt'
 
 # For deployment
 gem 'aws-sdk-core', '~> 3.0'
