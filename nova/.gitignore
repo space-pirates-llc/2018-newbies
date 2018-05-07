@@ -27,3 +27,4 @@ _book
 .envrc
 
 .env.production
+.env
