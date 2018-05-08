@@ -8,10 +8,16 @@ class UsersController < ApplicationController
   def create
     @user = User.create(user_params)
 
-    if @user.persisted?
-      self.current_user = @user
-      redirect_to dashboard_path
+    #if @user.persisted?
+    #  exit
+    #  self.current_user = @user
+    #  redirect_to dashboard_path
+    if @user.save
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to signup_url
     else
+      flash[:alert] = "Parameters error" 
       render :new, status: :bad_request
     end
   end

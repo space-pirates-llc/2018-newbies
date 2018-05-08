@@ -1,4 +1,6 @@
 = form_for @user, url: signup_path do |f|
+  - flash.each do |key, value|
+    div class=("alert alert-#{key}") = value
   .field
     = f.label :nickname
     .control
@@ -14,3 +16,4 @@
   .field
     .control.has-text-right
       = f.submit class: 'button is-primary'
+= debug(params) if Rails.env.development?
