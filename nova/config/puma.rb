@@ -4,7 +4,7 @@ APP_ROOT = File.expand_path(File.join(__dir__, '..'))
 directory APP_ROOT
 pidfile File.join(APP_ROOT, 'tmp', 'pids', 'puma.pid')
 
-if Rails.env.production?
+if ENV['RAILS_ENV'] == 'production'
   stdout_redirect File.join(APP_ROOT, 'log', 'stdout.log'), File.join(APP_ROOT, 'log', 'stderr.log'), true
 end
 
