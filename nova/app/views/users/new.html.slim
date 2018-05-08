@@ -1,4 +1,5 @@
 = form_for @user, url: signup_path do |f|
+  = render 'shared/error_messages', object: @user
   .field
     = f.label :nickname
     .control
@@ -11,6 +12,10 @@
     = f.label :password
     .control
       = f.password_field :password, class: 'input'
+  .field
+    = f.label :password_confirmation
+    .control
+      = f.password_field :password_confirmation, class: 'input'
   .field
     .control.has-text-right
       = f.submit class: 'button is-primary'
