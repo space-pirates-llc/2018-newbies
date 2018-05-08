@@ -2,9 +2,20 @@
   = javascript_include_tag 'https://js.stripe.com/v3/'
 
 #dashboard
-  .columns(:class="{ 'is-hidden': hasCreditCard }")
+  .columns
     .column.is-12
-      .heading Credit Card
+      - if current_user.credit_card
+        - credit_card = current_user.credit_card
+        p
+          = "登録済クレジットカードの情報"
+        p
+          = "下4桁は#{credit_card.last4}です。"
+        p
+          = "クレジットカードの有効期限は#{credit_card.exp_year}年#{credit_card.exp_month}月までです。"
+        .heading Change Credit Card
+      - else
+        = 'Credit Card is not registerd'
+        .heading Credit Card
       .field.is-grouped
         .control.is-expanded
           #credit-card(api-key="#{Stripe.public_key}" data-found="#{current_user.credit_card ? 'true' : 'false'}")
