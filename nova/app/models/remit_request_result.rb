@@ -1,0 +1,2 @@
+class RemitRequestResult < ApplicationRecord
+end
