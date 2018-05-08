@@ -22,7 +22,7 @@ module Nova
   class Application < Rails::Application
     # Set time_zone to Tokyo
     config.time_zone = 'Tokyo'
-    config.active_record.default_timezone = :local
+    config.active_record.default_timezone = :utc
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
