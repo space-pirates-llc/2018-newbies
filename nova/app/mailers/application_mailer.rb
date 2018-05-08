@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: 'ruoyu.mao@icloud.com'
+  default from: 'info@mf2018.youki.io'
   layout 'mailer'
 end
