@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
       self.current_user = @user
       redirect_to dashboard_path
     else
+      flash.now[:danger] = 'Invalid email/password combination'
       render :new, status: :bad_request
     end
   end
