@@ -3,7 +3,7 @@
 APP_ROOT = File.expand_path(File.join(__dir__, '..'))
 directory APP_ROOT
 pidfile File.join(APP_ROOT, 'tmp', 'pids', 'puma.pid')
-stdout_redirect File.join(APP_ROOT, 'log', 'stdout.log'), File.join(APP_ROOT, 'log', 'stderr.log'), true
+#stdout_redirect File.join(APP_ROOT, 'log', 'stdout.log'), File.join(APP_ROOT, 'log', 'stderr.log'), true
 
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
