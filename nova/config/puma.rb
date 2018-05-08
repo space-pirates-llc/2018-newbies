@@ -3,7 +3,7 @@
 APP_ROOT = File.expand_path(File.join(__dir__, '..'))
 directory APP_ROOT
 pidfile File.join(APP_ROOT, 'tmp', 'pids', 'puma.pid')
-# stdout_redirect File.join(APP_ROOT, 'log', 'stdout.log'), File.join(APP_ROOT, 'log', 'stderr.log'), true
+stdout_redirect File.join(APP_ROOT, 'log', 'stdout.log'), File.join(APP_ROOT, 'log', 'stderr.log'), true unless ENV.fetch('RAILS_ENV') == 'development'
 
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
@@ -11,7 +11,11 @@ pidfile File.join(APP_ROOT, 'tmp', 'pids', 'puma.pid')
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
-threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }
+threads_count = if ENV.fetch('RAILS_ENV') == 'development'
+                  ENV.fetch('RAILS_MAX_THREADS') { 1 }
+                else
+                  ENV.fetch('RAILS_MAX_THREADS') { 5 }
+                end
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
