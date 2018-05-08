@@ -13,4 +13,8 @@ class RemitRequestResult < ApplicationRecord
                                                      less_than_or_equal_to: MAX_REMIT_AMOUNT }
   validates :result, presence: true,
     inclusion: { in: [RESULT_ACCEPTED, RESULT_REJECTED, RESULT_CANCELED] }
+
+  scope :accepted, -> { where(result: RESULT_ACCEPTED) }
+  scope :rejected, -> { where(result: RESULT_REJECTED) }
+  scope :canceled, -> { where(result: RESULT_CANCELED) }
 end

@@ -62,4 +62,24 @@ RSpec.describe RemitRequestResult, type: :model do
       end
     end
   end
+
+  describe "scope" do
+    before do
+      5.times do
+        create(:remit_request_result, :accepted)
+        create(:remit_request_result, :rejected)
+        create(:remit_request_result, :canceled)
+      end
+    end
+
+    %i[accepted rejected canceled].each do |result|
+      context "with #{result}" do
+        subject do
+          RemitRequestResult.send("#{result}").map(&:result)
+        end
+
+        it { is_expected.to all(eq "#{result}") }
+      end
+    end
+  end
 end
