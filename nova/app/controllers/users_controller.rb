@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    print 'I am here---------------------'
     @user = User.create(user_params)
 
     if @user.persisted?
