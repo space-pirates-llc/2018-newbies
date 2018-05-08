@@ -59,4 +59,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'stripe-ruby-mock', require: 'stripe_mock'
+  # test 用の便利メソッドたちを利用する
+  gem 'shoulda-matchers', require: false
 end
