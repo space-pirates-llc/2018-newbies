@@ -6,11 +6,15 @@
     .column.is-12
       - if current_user.credit_card
         - credit_card = current_user.credit_card
-        = "Credit Card last 4 number is #{credit_card.last4}."
-        = "limited day is #{credit_card.exp_month}/#{credit_card.exp_year}"
+        p
+          = "登録済クレジットカードの情報"
+        p
+          = "下4桁は#{credit_card.last4}です。"
+        p
+          = "クレジットカードの有効期限は#{credit_card.exp_year}年#{credit_card.exp_month}月までです。"
         .heading Change Credit Card
       - else
-        = 'Credit Card is not registerd'
+        = 'まだクレジットカードが登録されていません。'
         .heading Credit Card
       .field.is-grouped
         .control.is-expanded
