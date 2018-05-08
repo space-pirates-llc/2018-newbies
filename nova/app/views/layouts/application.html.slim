@@ -37,6 +37,9 @@ html(lang="#{I18n.locale}" class="#{html_classes.join(' ')}")
         .container
           .columns
             .column.is-8.is-offset-2
+              - flash.each do |key, value|
+                div class=("alert alert-#{key}")
+                  = value
 
               = yield
 

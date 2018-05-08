@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
       # @user を初期化しつつ、 :email の値のみは保持して render :new する
       @user = User.new(email: user_params[:email])
 
+      flash.now[:danger] = 'Invalid email/password combination'
       render :new, status: :bad_request
     end
   end
