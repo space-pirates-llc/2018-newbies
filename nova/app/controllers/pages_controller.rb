@@ -3,5 +3,6 @@
 class PagesController < ApplicationController
   layout 'pages'
 
-  def root; end
+  def root
+  end
 end
