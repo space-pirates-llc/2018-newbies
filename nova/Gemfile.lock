@@ -284,7 +284,7 @@ DEPENDENCIES
   aws-sdk-codedeploy
   aws-sdk-core (~> 3.0)
   aws-sdk-s3
-  bcrypt
+  bcrypt (~> 3.1.7)
   bootsnap
   byebug
   canonical-rails
