@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   validates :nickname, presence: true
   validates :email, presence: true, uniqueness: true
+  validates :password, length: { minimum: 8 }
 
   after_create :create_stripe_customer
 
