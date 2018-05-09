@@ -22,7 +22,7 @@
         a.button(:disabled="!hasCreditCard" @click="charge(500, $event)") 500円
         a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)") 1,000円
         a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)") 5,000円
-        a.button(@click="isActiveNewRemitForm2 = true") もだる
+        a.button(@click="isActiveChargeConfirmDialog = true") もだる
 
   .columns.
     .column.is-12
@@ -144,11 +144,11 @@
     button.modal-close.is-large(@click.prevent= "isActiveNewRemitForm = false")
 
 
-  .modal(:class='{ "is-active": isActiveNewRemitForm2 }')
-    .modal-background(@click.prevent= "isActiveNewRemitForm2 = false")
+  .modal(:class='{ "is-active": isActiveChargeConfirmDialog }')
+    .modal-background(@click.prevent= "isActiveChargeConfirmDialog = false")
     .modal-card
       senction.modal-card-body
         .heading 本当にチャージしますか？
-        .button.button.is_primary(@click="charge(50,$event)" @click.prevent= "isActiveNewRemitForm2 = false ") はい
-        .button.button.is_primary(@click.prevent = "isActiveNewRemitForm2 = false")いいえ
-    button.modal-close.is-large(@click.prevent= "isActiveNewRemitForm2 = false")
+        .button.button.is_primary(@click="charge(50,$event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
+        .button.button.is_primary(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
+    button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")
