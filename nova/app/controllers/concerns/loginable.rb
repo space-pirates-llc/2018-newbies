@@ -13,15 +13,15 @@ module Loginable
 
   protected
 
-  #def logged_in?
-  #  current_user.present?
-  #end
+  def logged_in?
+    current_user.present?
+  end
 
-#  def current_user
-#    return @current_user if instance_variable_defined?(:@current_user)
-
-#    @current_user = User.find_by(id: cookies[COOKIE_NAME].to_s)
-#  end
+  def current_user
+    return @current_user if instance_variable_defined?(:@current_user)
+    #@current_user = User.find_by(id: cookies[COOKIE_NAME].to_s)
+    @current_user = User.find_by(id: session[:user_id])
+  end
 
   def current_user=(user)
     @current_user = user
@@ -34,4 +34,9 @@ module Loginable
       cookies.delete(COOKIE_NAME)
     end
   end
+
+  def current_user?(user)
+    user == current_user
+  end
+
 end
