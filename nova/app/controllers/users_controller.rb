@@ -6,7 +6,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.create(nickname: user_params[:nickname],
+                        email: user_params[:email].downcase,
+                        password: user_params[:password],
+                        password_confirmation: user_params[:passoword_confirmation])
 
     if @user.persisted?
       self.current_user = @user
