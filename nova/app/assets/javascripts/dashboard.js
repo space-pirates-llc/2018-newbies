@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
       page: 1,
       currentTab: 'remits',
       amount: 0,
+      chargeAmount: 0,
       charges: [],
       recvRemits: [],
       sentRemits: [],
@@ -113,6 +114,18 @@ document.addEventListener('DOMContentLoaded', function() {
         api.post('/api/charges', { amount: amount }).
           then(function(json) {
             self.amount += amount;
+            self.charges.unshift(json);
+          }).
+          catch(function(err) {
+            console.error(err);
+          });
+      },
+      valueCharge: function(event) {
+        var self = this;
+
+         api.post('/api/charges', { amount: parseInt(self.chargeAmount) }).
+          then(function(json) {
+            self.amount += parseInt(self.chargeAmount);
             self.charges.unshift(json);
           }).
           catch(function(err) {
