@@ -1,0 +1,26 @@
+.modal(:class='{ "is-active": isActiveNewRemitForm }')
+  .modal-background(@click.prevent="isActiveNewRemitForm = false")
+  .modal-card
+    section.modal-card-body
+      .heading New Remit Request
+
+      .field.has-addons(v-for="email in newRemitRequest.emails")
+        .control.is-expanded
+          input.input(type='email' :value="email" readonly)
+        .control
+          button.button.is-warning(@click="removeTarget(email, $event)")
+            span.delete
+      .columns
+        .column.is-6
+          .field.has-addons
+            .control.is-expanded
+              input.input(type='email' v-model="target" placeholder="Input target user's E-Mail")
+            .control
+              button.button.is-info(@click="addTarget($event)") Add
+        .column.is-6
+          .field.has-addons
+            .control.is-expanded
+              input.input(type='number' v-model="newRemitRequest.amount" placeholder="Amount")
+            .control
+              button.button.is-primary(@click="sendRemitRequest($event)") Send
+  button.modal-close.is-large(@click.prevent="isActiveNewRemitForm = false")
