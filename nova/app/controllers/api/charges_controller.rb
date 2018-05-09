@@ -24,5 +24,7 @@ class Api::ChargesController < Api::ApplicationController
     @charge = current_user.charges.create!(amount: params[:amount])
 
     render json: @charge, status: :created
+  rescue ActiveRecord::RecordInvalid => e
+    record_invalid(e)
   end
 end

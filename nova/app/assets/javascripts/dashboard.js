@@ -58,12 +58,18 @@ document.addEventListener('DOMContentLoaded', function() {
     data: {
       currentTab: 'remits',
       amount: 0,
+      charge_amount: 0,
       charges: [],
       recvRemits: [],
       sentRemits: [],
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
+      isActiveChargeConfirmDialog: false,
       target: "",
+      creditCard: {
+        brand: "",
+        last4: "",
+      },
       user: {
         email: "",
         nickname: "",
@@ -84,6 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
         self.charges = json.charges;
       });
 
+      api.get('/api/credit_card').then(function(json) {
+        self.creditCard.brand = json.brand;
+        self.creditCard.last4 = json.last4;
+      });
+
       api.get('/api/remit_requests', { status: 'outstanding' }).
         then(function(json) {
           self.recvRemits = json;
@@ -101,6 +112,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if(form){ creditCard.mount(form); }
     },
     methods: {
+      show_modal: function(amount) {
+        this.charge_amount = amount
+        this.isActiveChargeConfirmDialog = true;
+      },
       charge: function(amount, event) {
         if(event) { event.preventDefault(); }
 
@@ -122,10 +137,13 @@ document.addEventListener('DOMContentLoaded', function() {
           then(function(result) {
             return api.post('/api/credit_card', { credit_card: { source: result.token.id }});
           }).
-          then(function() {
+          then(function(json) {
+            self.creditCard.brand = json.brand;
+            self.creditCard.last4 = json.last4;
             self.hasCreditCard = true;
           });
       },
+
       addTarget: function(event) {
         if(event) { event.preventDefault(); }
         api.post('/api/user_emails', { email: this.target} ).
@@ -196,6 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
             self.user = json;
           });
       },
+      removeCreditCard: function(event){
+        if(event) { event.preventDefault(); }
+        var self = this;
+        api.delete('/api/credit_card').
+        then(function() {
+          self.creditCard.brand = null;
+          self.creditCard.last4 = null;
+          self.hasCreditCard = false;
+        })
+      }
     }
   });
 });

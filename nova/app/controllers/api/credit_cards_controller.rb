@@ -13,6 +13,11 @@ class Api::CreditCardsController < Api::ApplicationController
     render json: @credit_card.as_json(except: %i[stripe_id]), status: :created
   end
 
+  def destroy
+    current_user.credit_card.try(:destroy)
+    render json: {}, status: :ok
+  end
+
   protected
 
   def credit_card_params

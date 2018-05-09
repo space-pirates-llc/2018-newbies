@@ -18,10 +18,10 @@
     .column.is-8
       .heading Charge
       .buttons
-        a.button(:disabled="!hasCreditCard" @click="charge(100, $event)") 100円
-        a.button(:disabled="!hasCreditCard" @click="charge(500, $event)") 500円
-        a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)") 1,000円
-        a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)") 5,000円
+        a.button(:disabled="!hasCreditCard" @click="show_modal(100)" ) 100円
+        a.button(:disabled="!hasCreditCard" @click="show_modal(500)") 500円
+        a.button(:disabled="!hasCreditCard" @click="show_modal(1000)") 1,000円
+        a.button(:disabled="!hasCreditCard" @click="show_modal(5000)") 5,000円
 
   .columns.
     .column.is-12
@@ -29,6 +29,8 @@
         .is-pulled-right
           .tabs.is-small
             ul
+              li(:class= "{'is-active': currentTab === 'CreditCard'}")
+                a(@click="currentTab = 'CreditCard'") CreditCard
               li(:class= "{'is-active': currentTab === 'settings'}")
                 a(@click="currentTab = 'settings'") Settings
         .tabs.is-small
@@ -74,6 +76,24 @@
             td= '{{charge.amount}}円'
             td.has-text-right= '{{charge.created_at}}'
 
+  .columns(v-if="currentTab === 'CreditCard'")
+    .column.is-12(v-if="!hasCreditCard")
+      .heading CreditCard is not Registered
+    .column.is-12(v-if="hasCreditCard")
+      .heading CreditCard
+      table.table.is-fullwidth
+        thead
+          tr
+            th last4
+            th Brand
+            th
+        tbody
+          tr
+            td= '{{creditCard.last4}}'
+            td= '{{creditCard.brand}}'
+            td.has-text-right
+              button.button.is-primary(@click="removeCreditCard($event)") Delete
+
   .columns(v-if="currentTab === 'settings'")
     .column.is-12
       .heading Settings
@@ -96,7 +116,7 @@
             button.button.is-primary(type="submit") Update
 
   .modal(:class='{ "is-active": isActiveNewRemitForm }')
-    .modal-background(@click.prevent="isActiveNewRemitForm = false")
+    .modal-background(@click.prevent= "isActiveNewRemitForm = false")
     .modal-card
       section.modal-card-body
         .heading New Remit Request
@@ -120,4 +140,14 @@
                 input.input(type='number' v-model="newRemitRequest.amount" placeholder="Amount")
               .control
                 button.button.is-primary(@click="sendRemitRequest($event)") Send
-    button.modal-close.is-large(@click.prevent="isActiveNewRemitForm = false")
+    button.modal-close.is-large(@click.prevent= "isActiveNewRemitForm = false")
+
+
+  .modal(:class='{ "is-active": isActiveChargeConfirmDialog }')
+    .modal-background(@click.prevent= "isActiveChargeConfirmDialog = false")
+    .modal-card
+      senction.modal-card-body
+        .heading 本当にチャージしますか？
+        .button.button.is_primary(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
+        .button.button.is_primary(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
+    button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")
