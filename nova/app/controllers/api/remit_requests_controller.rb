@@ -2,9 +2,6 @@
 
 class Api::RemitRequestsController < Api::ApplicationController
   def index
-    puts '---------you can see the current user here-, to check if current_user ever exist----------------'
-    puts current_user
-    puts '--------------------------------------'
     @remit_requests = current_user.received_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
 
     render json: @remit_requests.as_json(include: :user)
