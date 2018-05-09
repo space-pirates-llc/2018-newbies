@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     data: {
       currentTab: 'remits',
       amount: 0,
+      charge_amount: 0,
       charges: [],
       recvRemits: [],
       sentRemits: [],
@@ -102,6 +103,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if(form){ creditCard.mount(form); }
     },
     methods: {
+      show_modal: function(amount) {
+        this.charge_amount = amount
+        this.isActiveChargeConfirmDialog = true;
+      },
       charge: function(amount, event) {
         if(event) { event.preventDefault(); }
 
