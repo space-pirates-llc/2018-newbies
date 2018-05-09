@@ -6,7 +6,14 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def update
-    current_user.update!(nickname: user_params[:nickname], email: user_params[:email].downcase, password: user_params[:password])
+    if user_params[:password] && user_params[:password_confirmation]
+      current_user.update!(nickname: user_params[:nickname],
+                           email: user_params[:email]&.downcase,
+                           password: user_params[:password],
+                           password_confirmation: user_params[:passoword_confirmation])
+    else
+      current_user.update!(nickname: user_params[:nickname], email: user_params[:email])
+    end
 
     render json: current_user
   rescue ActiveRecord::RecordInvalid => e
@@ -16,6 +23,6 @@ class Api::UsersController < Api::ApplicationController
   protected
 
   def user_params
-    params.require(:user).permit(:nickname, :email, :password)
+    params.require(:user).permit(:nickname, :email, :password, :password_confirmation)
   end
 end
