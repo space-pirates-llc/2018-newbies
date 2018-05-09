@@ -6,7 +6,7 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def update
-    current_user.update!(user_params)
+    current_user.update!(nickname: user_params[:nickname], email: user_params[:email].downcase, password: user_params[:password])
 
     render json: current_user
   rescue ActiveRecord::RecordInvalid => e

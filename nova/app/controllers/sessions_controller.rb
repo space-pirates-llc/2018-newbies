@@ -6,13 +6,14 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: user_params[:email])
+    @user = User.find_by(email: user_params[:email].downcase)
 
     if @user&.authenticate(user_params[:password])
       self.current_user = @user
       redirect_to dashboard_path
     else
       # @user を初期化しつつ、 :email の値のみは保持して render :new する
+      # ここではユーザーの入力値を保持したいので #downcase していない
       @user = User.new(email: user_params[:email])
 
       flash.now[:danger] = 'Invalid email/password combination'
