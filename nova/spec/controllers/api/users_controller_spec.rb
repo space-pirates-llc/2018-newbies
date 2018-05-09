@@ -43,7 +43,7 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       context 'with valid params' do
-        let(:user_params) { { user: { nickname: 'John Doe' } } }
+        let(:user_params) { { user: { nickname: 'John Doe', email: 'valid@email.com' } } }
 
         it { is_expected.to have_http_status(:ok) }
       end
