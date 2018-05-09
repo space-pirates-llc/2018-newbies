@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setInterval(function() {
         api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
           then(function(json) {
-          self.recvRemits = json.remit_requests;
+            self.recvRemits = json.remit_requests;
           });
       }, 5000);
     },
@@ -200,14 +200,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         self.updateRemixPage(page)
       },
-      changeRemixPage: function(diff, event) {
-        var self = this;
-
-        self.updateRemixPage(self.page + diff)
-      },
       updateRemixPage: function(next) {
         var self = this;
-        console.log('called')
+
         api.get('/api/remit_requests', { status: 'outstanding', page: next }).
         then(function(json) {
           self.recvRemits = json.remit_requests;
