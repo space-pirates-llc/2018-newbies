@@ -29,6 +29,8 @@
         .is-pulled-right
           .tabs.is-small
             ul
+              li(:class= "{'is-active': currentTab === 'CreditCard'}")
+                a(@click="currentTab = 'CreditCard'") CreditCard
               li(:class= "{'is-active': currentTab === 'settings'}")
                 a(@click="currentTab = 'settings'") Settings
         .tabs.is-small
@@ -73,6 +75,24 @@
           tr(v-for="charge in charges")
             td= '{{charge.amount}}円'
             td.has-text-right= '{{charge.created_at}}'
+
+  .columns(v-if="currentTab === 'CreditCard'")
+    .column.is-12
+      .heading CreditCard
+      table.table.is-fullwidth
+        thead
+          tr
+            th last4
+            th Brand
+            th
+        tbody
+          tr
+            td= '{{last4}}'
+            td= '{{brand}}'
+            td.has-text-right(v-if="hasCreditCard")
+              button.button.is-primary(@click="removeCreditCard($event)") Delete
+
+
 
   .columns(v-if="currentTab === 'settings'")
     .column.is-12

@@ -64,6 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
       target: "",
+      brand: "",
+      last4: "",
       user: {
         email: "",
         nickname: "",
@@ -82,6 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
       api.get('/api/charges').then(function(json) {
         self.amount = json.amount;
         self.charges = json.charges;
+      });
+
+      api.get('/api/credit_card').then(function(json) {
+        self.brand = json.brand;
+        self.last4 = json.last4;
       });
 
       api.get('/api/remit_requests', { status: 'outstanding' }).
@@ -122,10 +129,13 @@ document.addEventListener('DOMContentLoaded', function() {
           then(function(result) {
             return api.post('/api/credit_card', { credit_card: { source: result.token.id }});
           }).
-          then(function() {
+          then(function(json) {
+            self.brand = json.brand;
+            self.last4 = json.last4;
             self.hasCreditCard = true;
           });
       },
+
       addTarget: function(event) {
         if(event) { event.preventDefault(); }
         api.post('/api/user_emails', { email: this.target} ).
@@ -196,6 +206,16 @@ document.addEventListener('DOMContentLoaded', function() {
             self.user = json;
           });
       },
+      removeCreditCard: function(event){
+        if(event) { event.preventDefault(); }
+        var self = this;
+        api.delete('/api/credit_card').
+        then(function() {
+          self.brand = null;
+          self.last4 = null;
+          self.hasCreditCard = false;
+        })
+      }
     }
   });
 });
