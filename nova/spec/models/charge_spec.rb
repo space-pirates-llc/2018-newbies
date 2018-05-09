@@ -16,6 +16,7 @@ RSpec.describe Charge, type: :model do
   describe 'Associations' do
     describe 'amount' do
       it { is_expected.to validate_numericality_of(:amount).is_greater_than(0).only_integer }
+      it { is_expected.to validate_presence_of(:amount) }
     end
   end
 end
