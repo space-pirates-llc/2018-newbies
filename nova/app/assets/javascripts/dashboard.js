@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         self.charges = json.charges;
       });
 
-      api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
+      api.get('/api/remit_requests').
         then(function(json) {
           self.maxPage = json.max_pages
           self.recvRemits = json.remit_requests;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
       setInterval(function() {
-        api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
+        api.get('/api/remit_requests', { page: self.page }).
           then(function(json) {
             self.recvRemits = json.remit_requests;
           });
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
       updateRemixPage: function(next) {
         var self = this;
 
-        api.get('/api/remit_requests', { status: 'outstanding', page: next }).
+        api.get('/api/remit_requests', { page: next }).
         then(function(json) {
           self.recvRemits = json.remit_requests;
           document.getElementsByClassName('pagination-link')[self.page-1].classList.remove('is-current')
