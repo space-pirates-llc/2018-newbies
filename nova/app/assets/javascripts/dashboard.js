@@ -64,8 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
       target: "",
-      brand: "",
-      last4: "",
+      creditCard: {
+        brand: "",
+        last4: "",
+      },
       user: {
         email: "",
         nickname: "",
@@ -130,8 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return api.post('/api/credit_card', { credit_card: { source: result.token.id }});
           }).
           then(function(json) {
-            self.brand = json.brand;
-            self.last4 = json.last4;
+            self.creditCard.brand = json.brand;
+            self.creditCard.last4 = json.last4;
             self.hasCreditCard = true;
           });
       },
@@ -211,8 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.delete('/api/credit_card').
         then(function() {
-          self.brand = null;
-          self.last4 = null;
+          self.creditCard.brand = null;
+          self.creditCard.last4 = null;
           self.hasCreditCard = false;
         })
       }
