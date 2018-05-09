@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::ApplicationController < ActionController::API
-  #include Loginable
+  include Loginable
   include SessionsHelper
   include AbstractController::Translation
 
