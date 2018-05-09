@@ -2,6 +2,7 @@
 
 class Api::ApplicationController < ActionController::API
   include Loginable
+  include SessionsHelper
   include AbstractController::Translation
 
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
