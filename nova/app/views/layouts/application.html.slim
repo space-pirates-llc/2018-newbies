@@ -20,7 +20,7 @@ html(lang="#{I18n.locale}" class="#{html_classes.join(' ')}")
                       span.navbar-item
                         = link_to 'Dashboard', dashboard_path, class: 'button is-primary'
                       span.navbar-item
-                        = link_to 'Logout', root_path, class: 'button is-inverted is-dark'
+                        = link_to 'Logout', destroy_user_session_path, class: 'button is-inverted is-dark', method: :delete
                     - else
                       span.navbar-item
                         = link_to 'Login', new_user_session_path, class: 'button is-inverted is-dark'
