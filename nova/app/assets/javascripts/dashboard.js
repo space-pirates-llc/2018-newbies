@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
       setInterval(function() {
-        api.get('/api/remit_requests').
+        api.get('/api/remit_requests', { page: self.page }).
           then(function(json) {
             self.recvRemits = json.remit_requests;
           });
