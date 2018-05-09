@@ -5,15 +5,16 @@ class PasswordResetsController < ApplicationController
   before_action :reset_request_validation, only: %i[edit update]
 
   def new
+    @user = User.new
   end
 
   def create
     @user = User.find_by(email: password_reset_param[:email])
 
     if @user
-      reset_token = SecureRandom.urlsafe_base64
+      @reset_token = SecureRandom.urlsafe_base64
       # 以下の処理が失敗することはないので、エラー処理は行なっていない
-      @user.update_columns(reset_digest: BCrypt::Password.create(reset_token, cost: 10), reset_sent_at: Time.zone.now)
+      @user.update_columns(reset_digest: BCrypt::Password.create(@reset_token, cost: 10), reset_sent_at: Time.zone.now)
 
       # TODO: Redis 利用して deliver_later を使うか要相談
       UserMailer.password_reset(@user, @reset_token).deliver_now
@@ -21,6 +22,7 @@ class PasswordResetsController < ApplicationController
       flash.now[:info] = "パスワードリセットのためのメールが送信されました"
       redirect_to login_path
     else
+      @user = User.new(email: password_reset_param[:email])
       flash.now[:danger] = "メールアドレスが見つかりません"
       render 'new'
     end
@@ -45,15 +47,15 @@ class PasswordResetsController < ApplicationController
   private
 
   def password_reset_param
-    params.require(:password_reset).fetch(:email)
+    params.require(:user).permit(:email)
   end
 
   def user_password_param
-    params.require(:user_password).fetch(:password, :password_confirmation)
+    params.require(:user).permit(:password, :password_confirmation)
   end
 
   def set_user
-    @user = User.find_by[email: params[:email]]
+    @user = User.find_by(email: params[:email])
   end
 
   def reset_request_validation
@@ -63,7 +65,14 @@ class PasswordResetsController < ApplicationController
     end
   end
 
+  # リセットのリクエストが有効かどうかは
+  #
+  # - アドレスの email パラメータに該当するユーザーが存在する
+  # - そのユーザーのリセット用のトークンのハッシュ値( DB 側で保存している)と、パラメータの値をハッシュ化したものが等しい
+  # - リセットを送られてから 2 時間が経過していない
+  #
+  # の 3 つの条件で確かめている
   def is_valid_reset_request?
-    @user && BCrypt::Password.new(@user.reset_digest).is_password?(params[:id]) && @user.reset_sent_at < 2.hours.ago
+    @user && BCrypt::Password.new(@user.reset_digest).is_password?(params[:id]) && @user.reset_sent_at > 2.hours.ago
   end
 end
