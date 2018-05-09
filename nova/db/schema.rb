@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_23_164954) do
+ActiveRecord::Schema.define(version: 2018_05_09_021534) do
+
+  create_table "balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "amount", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_balances_on_user_id"
+  end
 
   create_table "charges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -30,6 +38,17 @@ ActiveRecord::Schema.define(version: 2018_04_23_164954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
+  end
+
+  create_table "remit_request_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "target_id", null: false
+    t.integer "amount", null: false
+    t.string "result", limit: 10, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_id"], name: "index_remit_request_results_on_target_id"
+    t.index ["user_id"], name: "index_remit_request_results_on_user_id"
   end
 
   create_table "remit_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -55,6 +74,7 @@ ActiveRecord::Schema.define(version: 2018_04_23_164954) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "balances", "users"
   add_foreign_key "charges", "users"
   add_foreign_key "credit_cards", "users"
   add_foreign_key "remit_requests", "users"
