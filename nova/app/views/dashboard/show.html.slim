@@ -24,16 +24,23 @@
 
   - if current_user.credit_card
     .columns
-      .column.is-4
+      #amount.column.is-4
         .heading Amount
         .title= '{{amount}}円'
-      .column.is-8
+      #charge.column.is-8
         .heading Charge
         .buttons
           a.button(:disabled="!hasCreditCard" @click="charge(100, $event)") 100円
           a.button(:disabled="!hasCreditCard" @click="charge(500, $event)") 500円
           a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)") 1,000円
           a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)") 5,000円
+        .field
+
+        .heading 50円以上金額を入力してください
+        .control.is-expanded
+          input.input placeholder=("add new todo here") type="text" v-model="chargeAmount"
+        .control.has-text-right
+          button.button.is-small.is-primary(@click="valueCharge($event)") Register
 
   .columns.
     .column.is-12
