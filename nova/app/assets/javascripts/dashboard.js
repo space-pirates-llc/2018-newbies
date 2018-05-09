@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var dashboard = new Vue({
     el: '#dashboard',
     data: {
+      page: 1,
       currentTab: 'remits',
       amount: 0,
       charges: [],
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     beforeMount: function() {
       var self = this;
+      self.page = 1;
       api.get('/api/user').then(function(json) {
         self.user = json;
       });
@@ -84,13 +86,13 @@ document.addEventListener('DOMContentLoaded', function() {
         self.charges = json.charges;
       });
 
-      api.get('/api/remit_requests', { status: 'outstanding' }).
+      api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
         then(function(json) {
           self.recvRemits = json;
         });
 
       setInterval(function() {
-        api.get('/api/remit_requests', { status: 'outstanding' }).
+        api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
           then(function(json) {
             self.recvRemits = json;
           });
@@ -190,6 +192,28 @@ document.addEventListener('DOMContentLoaded', function() {
             self.user = json;
           });
       },
+      jumpRemixPage: function(page, event) {
+        var self = this;
+
+        self.updateRemixPage(page)
+      },
+      changeRemixPage: function(diff, event) {
+        var self = this;
+
+        self.updateRemixPage(self.page + diff)
+      },
+      updateRemixPage: function(next) {
+        var self = this;
+        console.log('called')
+        api.get('/api/remit_requests', { status: 'outstanding', page: next }).
+        then(function(json) {
+          self.recvRemits = json;
+          document.getElementsByClassName('pagination-link')[self.page-1].classList.remove('is-current')
+          document.getElementsByClassName('pagination-link')[next-1].classList.add('is-current')
+          self.page = next
+        });
+
+      }
     }
   });
 });
