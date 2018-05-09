@@ -87,8 +87,8 @@
             th
         tbody
           tr
-            td= '{{last4}}'
-            td= '{{brand}}'
+            td= '{{creditCard.last4}}'
+            td= '{{creditCard.brand}}'
             td.has-text-right(v-if="hasCreditCard")
               button.button.is-primary(@click="removeCreditCard($event)") Delete
 
