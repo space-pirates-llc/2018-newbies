@@ -3,8 +3,9 @@
 class Api::RemitRequestsController < Api::ApplicationController
   def index
     @remit_requests = current_user.received_remit_requests.page(params[:page])
-    @pages = current_user.received_remit_requests
-    render json: @remit_requests.as_json(include: :user)#.as_join(page: @pages)
+    pages = current_user.received_remit_requests.count / 10 + 
+      ( current_user.received_remit_requests.count % 10 ? 1 : 0)
+    render json:{max_pages: pages, remit_requests: @remit_requests.as_json(include: :user).to_a}
   end
 
   def create

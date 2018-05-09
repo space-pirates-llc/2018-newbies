@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
       charges: [],
       recvRemits: [],
       sentRemits: [],
+      maxPage: 1,
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
       target: "",
@@ -88,13 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
       api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
         then(function(json) {
-          self.recvRemits = json;
+          self.maxPage = json.max_pages
+          self.recvRemits = json.remit_requests;
+          document.getElementsByClassName('pagination-link')[0].classList.add('is-current')
         });
 
       setInterval(function() {
         api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
           then(function(json) {
-            self.recvRemits = json;
+          self.recvRemits = json.remit_requests;
           });
       }, 5000);
     },
@@ -207,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('called')
         api.get('/api/remit_requests', { status: 'outstanding', page: next }).
         then(function(json) {
-          self.recvRemits = json;
+          self.recvRemits = json.remit_requests;
           document.getElementsByClassName('pagination-link')[self.page-1].classList.remove('is-current')
           document.getElementsByClassName('pagination-link')[next-1].classList.add('is-current')
           self.page = next

@@ -71,16 +71,10 @@
               .buttons.is-right
                 button.button.is-small(:disabled="amount < remit.amount" @click='accept(remit.id, $event)') Accept
                 button.button.is-small(@click='reject(remit.id, $event)') Reject
-      nav.pagination aria-label="pagination" role="navigation"
-        a.pagination-previous @click='changeRemixPage(-1, $event)' Previous
-        a.pagination-next @click='changeRemixPage(1, $event)' Next page
-        ul.pagination-list
+      nav.pagination
+        ul.pagination-list(v-for="(item, index) in new Array(maxPage)")
           li
-            a.pagination-link.is-current @click='jumpRemixPage(1, $event)' 1
-          li
-            a.pagination-link aria-label=("Goto page 2") @click='jumpRemixPage(2, $event)'  2
-          li
-            a.pagination-link aria-label=("Goto page 3") @click='jumpRemixPage(3, $event)'  3
+            a.pagination-link aria-label=("Goto page {index}") @click='jumpRemixPage(index + 1, $event)'  {{index + 1}}
 
   .columns(v-if="currentTab === 'charge'")
     .column.is-12
