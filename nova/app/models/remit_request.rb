@@ -5,6 +5,7 @@ class RemitRequest < ApplicationRecord
   belongs_to :target, class_name: 'User'
 
   validates :amount, numericality: { greater_then: 0 }
+  paginates_per 10
 
   scope :outstanding, ->(at = Time.current) { not_accepted(at).not_rejected(at).not_canceled(at) }
   scope :accepted, ->(at = Time.current) { where(RemitRequest.arel_table[:accepted_at].lteq(at)) }

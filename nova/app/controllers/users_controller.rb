@@ -7,12 +7,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-
-    #if @user.persisted?
-    #  exit
-    #  self.current_user = @user
-    #  redirect_to dashboard_path
     if @user.save
+      log_in @user
       @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
       redirect_to signup_url

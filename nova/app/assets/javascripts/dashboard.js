@@ -56,11 +56,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var dashboard = new Vue({
     el: '#dashboard',
     data: {
+      page: 1,
       currentTab: 'remits',
       amount: 0,
       charges: [],
       recvRemits: [],
       sentRemits: [],
+      maxPage: 1,
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
       target: "",
@@ -75,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     beforeMount: function() {
       var self = this;
+      self.page = 1;
       api.get('/api/user').then(function(json) {
         self.user = json;
       });
@@ -86,13 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
       api.get('/api/remit_requests').
         then(function(json) {
-          self.recvRemits = json;
+          self.maxPage = json.max_pages
+          self.recvRemits = json.remit_requests;
+          document.getElementsByClassName('pagination-link')[0].classList.add('is-current')
         });
 
       setInterval(function() {
         api.get('/api/remit_requests').
           then(function(json) {
-            self.recvRemits = json;
+            self.recvRemits = json.remit_requests;
           });
       }, 5000);
     },
@@ -190,6 +195,23 @@ document.addEventListener('DOMContentLoaded', function() {
             self.user = json;
           });
       },
+      jumpRemixPage: function(page, event) {
+        var self = this;
+
+        self.updateRemixPage(page)
+      },
+      updateRemixPage: function(next) {
+        var self = this;
+
+        api.get('/api/remit_requests', { page: next }).
+        then(function(json) {
+          self.recvRemits = json.remit_requests;
+          document.getElementsByClassName('pagination-link')[self.page-1].classList.remove('is-current')
+          document.getElementsByClassName('pagination-link')[next-1].classList.add('is-current')
+          self.page = next
+        });
+
+      }
     }
   });
 });

@@ -6,19 +6,25 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: user_params[:email])
-
-    if @user && @user.password == user_params[:password]
-      self.current_user = @user
-      redirect_to dashboard_path
+    @user = User.find_by(email: params[:user][:email].downcase)
+    if @user && @user.authenticate(params[:user][:password])
+      if @user.activated?
+        log_in @user
+        redirect_to dashboard_path
+      else
+        message = "Account not activated."
+        message += "Check your email for the activation link."
+        flash[:warning] = message
+        redirect_to root_url
+      end
     else
-      render :new, status: :bad_request
+      flash.now[:danger] = "Invalid email/password combination"
+      render :new
     end
   end
 
   def destroy
-    self.current_user = nil if logged_in?
-
+    log_out if logged_in?
     redirect_to login_path
   end
 
