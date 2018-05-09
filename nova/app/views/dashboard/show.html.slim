@@ -112,6 +112,10 @@
           .control
             input.input(type="password" v-model="user.password")
         .field
+          label.label Password Confirmation
+          .control
+            input.input(type="password" v-model="user.password_confirmation")
+        .field
           .control.has-text-right
             button.button.is-primary(type="submit") Update
 
