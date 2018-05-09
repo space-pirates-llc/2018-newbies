@@ -7,6 +7,20 @@ class Charge < ApplicationRecord
 
   after_create :create_stripe_charge
 
+  def finalize
+    # TODO: Check charge's status to avoid duplicate charges
+
+    ActiveRecord::Base.transaction do
+      lock!
+      user.balance.amount += amount
+      user.balance.save!
+
+      # TODO: Update charge's status
+
+      save!
+    end
+  end
+
   protected
 
   def create_stripe_charge
