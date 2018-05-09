@@ -84,13 +84,13 @@ document.addEventListener('DOMContentLoaded', function() {
         self.charges = json.charges;
       });
 
-      api.get('/api/remit_requests', { status: 'outstanding' }).
+      api.get('/api/remit_requests').
         then(function(json) {
           self.recvRemits = json;
         });
 
       setInterval(function() {
-        api.get('/api/remit_requests', { status: 'outstanding' }).
+        api.get('/api/remit_requests').
           then(function(json) {
             self.recvRemits = json;
           });
