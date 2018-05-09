@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sentRemits: [],
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
+      isActiveNewRemitForm2: false,
       target: "",
       user: {
         email: "",

@@ -22,6 +22,7 @@
         a.button(:disabled="!hasCreditCard" @click="charge(500, $event)") 500円
         a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)") 1,000円
         a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)") 5,000円
+        a.button(@click="isActiveNewRemitForm2 = true") もだる
 
   .columns.
     .column.is-12
@@ -96,7 +97,7 @@
             button.button.is-primary(type="submit") Update
 
   .modal(:class='{ "is-active": isActiveNewRemitForm }')
-    .modal-background(@click.prevent="isActiveNewRemitForm = false")
+    .modal-background(@click.prevent= "isActiveNewRemitForm = false")
     .modal-card
       section.modal-card-body
         .heading New Remit Request
@@ -120,4 +121,13 @@
                 input.input(type='number' v-model="newRemitRequest.amount" placeholder="Amount")
               .control
                 button.button.is-primary(@click="sendRemitRequest($event)") Send
-    button.modal-close.is-large(@click.prevent="isActiveNewRemitForm = false")
+    button.modal-close.is-large(@click.prevent= "isActiveNewRemitForm = false")
+
+
+  .modal(:class='{ "is-active": isActiveNewRemitForm2 }')
+    .modal-background(@click.prevent= "isActiveNewRemitForm2 = false")
+    .modal-card
+      senction.modal-card-body
+        .heading 本当にチャージしますか？
+        .button.button.is_primary(@click="charge(50,$event)") はい
+    button.modal-close.is-large(@click.prevent= "isActiveNewRemitForm2 = false")
