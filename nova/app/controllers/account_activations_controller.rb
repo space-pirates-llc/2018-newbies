@@ -1,7 +1,7 @@
 class AccountActivationsController < ApplicationController
   def edit
     user = User.find_by(email: params[:email])
-    # Use !ser.activated? here to ensure illegal access would not be grangted.
+    # Use !user.activated? here to ensure illegal access would not be grangted.
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       user.activate
       log_in user
