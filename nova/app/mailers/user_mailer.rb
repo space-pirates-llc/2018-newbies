@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserMailer < ApplicarionMailer
+class UserMailer < ApplicationMailer
   def password_reset(user, reset_token)
     @user = user
     @reset_token = reset_token
