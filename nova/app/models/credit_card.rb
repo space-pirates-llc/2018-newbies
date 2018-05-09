@@ -8,8 +8,8 @@ class CreditCard < ApplicationRecord
   validates :stripe, presence: true
   validates :brand, presence: true
   validates :last4, presence: true
-  validates :exp_year, numericality: true
-  validates :exp_month, numericality: true
+  validates :exp_year, numericality:  { greater_than_or_equal_to: 0, only_integer: true }, presence: true
+  validates :exp_month, inclusion: { in: 1..12 }, presence: true
 
   before_validation :create_stripe_card
   after_create :update_stripe_card
