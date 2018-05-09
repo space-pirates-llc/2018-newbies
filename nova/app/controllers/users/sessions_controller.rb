@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  # configure_sign_in_paramsしなくてもstrong parameterにできているか要確認
   # before_action :configure_sign_in_params, only: [:create]
 
-  # GET /resource/sign_in
   def new
     super
   end
 
-  # POST /resource/sign_in
   def create
     super
+    flash.now[:notice] = 'trial'
+    flash.now[:alert] = 'trial2'
   end
 
-  # DELETE /resource/sign_out
   def destroy
     super
   end
