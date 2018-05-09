@@ -129,5 +129,6 @@
     .modal-card
       senction.modal-card-body
         .heading 本当にチャージしますか？
-        .button.button.is_primary(@click="charge(50,$event)") はい
+        .button.button.is_primary(@click="charge(50,$event)" @click.prevent= "isActiveNewRemitForm2 = false ") はい
+        .button.button.is_primary(@click.prevent = "isActiveNewRemitForm2 = false")いいえ
     button.modal-close.is-large(@click.prevent= "isActiveNewRemitForm2 = false")
