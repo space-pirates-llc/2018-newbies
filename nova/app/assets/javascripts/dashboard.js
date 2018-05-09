@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       api.get('/api/credit_card').then(function(json) {
-        self.brand = json.brand;
-        self.last4 = json.last4;
+        self.creditCard.brand = json.brand;
+        self.creditCard.last4 = json.last4;
       });
 
       api.get('/api/remit_requests', { status: 'outstanding' }).
