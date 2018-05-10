@@ -199,11 +199,29 @@ document.addEventListener('DOMContentLoaded', function() {
             });
           });
       },
-      updateUser: function(event) {
+      updateUserNickname: function(event) {
         if(event) { event.preventDefault(); }
 
         var self = this;
-        api.put('/api/user', { user: this.user }).
+        api.put('/api/user?attribute=nickname', { user: this.user }).
+          then(function(json) {
+            self.user = json;
+          });
+      },
+      updateUserEmail: function(event) {
+        if(event) { event.preventDefault(); }
+
+        var self = this;
+        api.put('/api/user?attribute=email', { user: this.user }).
+          then(function(json) {
+            self.user = json;
+          });
+      },
+       updateUserPassword: function(event) {
+        if(event) { event.preventDefault(); }
+
+        var self = this;
+        api.put('/api/user?attribute=password', { user: this.user }).
           then(function(json) {
             self.user = json;
           });

@@ -98,15 +98,25 @@
     .column.is-12
       .heading Settings
 
-      form(@submit="updateUser($event)")
+      form(@submit="updateUserNickname($event)")
         .field
           label.label Nickname
           .control
             input.input(type="text" v-model="user.nickname")
         .field
-          label.label E-Mail
+          .control.has-text-right
+            button.button.is-primary(type="submit") Update
+
+      form(@submit="updateUserEmail($event)")
+        .field
+          label.label Email
           .control
             input.input(type="email" v-model="user.email")
+        .field
+          .control.has-text-right
+            button.button.is-primary(type="submit") Update
+
+      form(@submit="updateUserPassword($event)")
         .field
           label.label Password
           .control
