@@ -1,0 +1,20 @@
+.columns(v-if="currentTab === 'settings'")
+  .column.is-12
+    .heading Settings
+
+    form(@submit="updateUser($event)")
+      .field
+        label.label Nickname
+        .control
+          input.input(type="text" v-model="user.nickname")
+      .field
+        label.label E-Mail
+        .control
+          input.input(type="email" v-model="user.email")
+      .field
+        label.label Password
+        .control
+          input.input(type="password" v-model="user.password")
+      .field
+        .control.has-text-right
+          button.button.is-primary(type="submit") Update

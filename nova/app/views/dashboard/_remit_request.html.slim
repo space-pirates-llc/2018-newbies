@@ -1,0 +1,25 @@
+#remit_request.columns(v-if="currentTab === 'remits'")
+  .column.is-12
+    .heading Remit Requests
+
+    .section
+      button.button.is-info.is-fullwidth(@click="isActiveNewRemitForm = true")
+        | Make New Remit Request
+    table.table.is-fullwidth
+      thead
+        tr
+          th From
+          th Amount
+          th.has-text-right
+      tbody
+        tr(v-for="remit in recvRemits")
+          td= '{{remit.user.nickname}}({{remit.user.email}})'
+          td= '{{remit.amount}}円'
+          td
+            .buttons.is-right
+              button.button.is-small(:disabled="amount < remit.amount" @click='accept(remit.id, $event)') Accept
+              button.button.is-small(@click='reject(remit.id, $event)') Reject
+    nav.pagination
+      ul.pagination-list(v-for="(item, index) in new Array(maxPage)")
+        li
+          a.pagination-link aria-label=("Goto page {index}") @click='jumpRemixPage(index + 1, $event)'  {{index + 1}}

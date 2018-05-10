@@ -1,0 +1,12 @@
+.columns(v-if="currentTab === 'charge'")
+  .column.is-12
+    .heading Charge Log
+    table.table.is-fullwidth
+      thead
+        tr
+          th Amount
+          th.has-text-right Date
+      tbody
+        tr(v-for="charge in charges")
+          td= '{{charge.amount}}円'
+          td.has-text-right= '{{charge.created_at}}'
