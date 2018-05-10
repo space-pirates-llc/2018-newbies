@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :charge_history do
-    amount ""
-    ch_id "MyString"
-    result "MyString"
-    user nil
+    amount 100
+    ch_id "ch_123abc"
+    result "success"
+    association :user, factory: :user
   end
 end
