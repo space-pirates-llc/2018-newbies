@@ -6,4 +6,4 @@ ja:
       balance:
         id: "ID"
         user_id: "UserId"
-        balance: "Balance"
+        amount: "Amount"
