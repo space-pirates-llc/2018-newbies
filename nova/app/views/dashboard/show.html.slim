@@ -176,3 +176,12 @@
               .control
                 button.button(@click.prevent = "isActiveDeleteCreditCard = false")いいえ
     button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")
+
+  .modal(:class='{ "is-active": isActiveDeleteCreditCard }')
+    .modal-background(@click.prevent= "isActiveDeleteCreditCard = false")
+    .modal-card
+      senction.modal-card-body
+        .heading 本当にクレジットカードを削除してよろしいですか？
+        .button.button.is_primary(@click="removeCreditCard($event)" @click.prevent= "isActiveDeleteCreditCard = false ") はい
+        .button.button.is_primary(@click.prevent = "isActiveDeleteCreditCard = false")いいえ
+    button.modal-close.is-large(@click.prevent= "isActiveDeleteCreditCard = false")
