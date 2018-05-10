@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     methods: {
       show_modal: function(amount) {
-        this.charge_amount = amount
+        this.charge_amount = amount;
         this.isActiveChargeConfirmDialog = true;
       },
       charge: function(amount, event) {
@@ -146,10 +146,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
       addTarget: function(event) {
         if(event) { event.preventDefault(); }
-
-        if(!this.newRemitRequest.emails.includes(this.target)) {
-          this.newRemitRequest.emails.push(this.target);
-        }
+        var self = this;
+        api.post('/api/user_emails', { email: this.target} ).
+            then(function (json) {
+              if(json.error == 'Not found'){
+                alert("そのメールアドレスは登録されていません");
+              }else{
+                if(!self.newRemitRequest.emails.includes(self.target)){
+                  self.newRemitRequest.emails.push(self.target);
+                }
+              }
+        })
       },
       removeTarget: function(email, event) {
         if(event) { event.preventDefault(); }
