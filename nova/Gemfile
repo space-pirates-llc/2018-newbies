@@ -60,4 +60,5 @@ group :test do
   gem 'stripe-ruby-mock', require: 'stripe_mock'
   # test 用の便利メソッドたちを利用する
   gem 'shoulda-matchers', require: false
+  gem 'rspec_junit_formatter'
 end
