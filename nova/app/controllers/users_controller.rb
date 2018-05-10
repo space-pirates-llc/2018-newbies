@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   def create
     @user = User.create(user_params)
     if @user.save
-      log_in @user
       @user.send_activation_email
       flash[:notice] = "アカウント有効化のメールを送信しました。"
       redirect_to signup_url
