@@ -2,27 +2,15 @@
 
 class Api::ChargesController < Api::ApplicationController
   def index
-    charge_total = 0
-    current_user.charges.each do |charge|
-      charge_total += charge.amount
-    end
-    remit_total = 0
-    current_user.received_remit_requests.where.not(accepted_at: nil).each do |remit|
-      remit_total += remit.amount
-    end
-    current_user.sent_remit_requests.where.not(accepted_at: nil).each do |remit|
-      remit_total -= remit.amount
-    end
-    balance_total = charge_total - remit_total
-
     @charges = current_user.charges.order(id: :desc).limit(50)
 
-    render json: { amount: balance_total, charges: @charges }
+    render json: { amount: current_user.balance.amount, charges: @charges }
   end
 
   def create
     @charge = current_user.charges.create!(amount: params[:amount])
-
+    current_user.balance.amount += params[:amount]
+    current_user.balance.update(amount: current_user.balance.amount)
     render json: @charge, status: :created
   rescue ActiveRecord::RecordInvalid => e
     record_invalid(e)
