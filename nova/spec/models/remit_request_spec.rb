@@ -27,6 +27,7 @@ RSpec.describe RemitRequest, type: :model do
       create(:remit_request, amount: remit_amount, user: request_user, requested_user: requested_user)
     end
 
+    # TODO: service/remit_service.rb のテストに移す
     describe ".accept!" do
       subject(:accept_subject) { remit_request.accept! }
       context "with enough amount" do
