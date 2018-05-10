@@ -17,6 +17,7 @@ RSpec.describe UsersController, type: :controller do
       let(:user_params) { attributes_for(:user) }
 
       it { is_expected.to redirect_to(dashboard_path) }
+      it { expect { subject }.to change(User, :count).by(1) }
     end
 
     context 'with invalid params' do
@@ -24,6 +25,7 @@ RSpec.describe UsersController, type: :controller do
 
       it { is_expected.to have_http_status(:bad_request) }
       it { is_expected.to render_template(:new) }
+      it { expect { subject }.not_to change(User, :count) }
     end
   end
 end
