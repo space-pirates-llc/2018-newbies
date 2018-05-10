@@ -12,6 +12,10 @@
     .control
       = f.password_field :password, class: 'input'
   .field
+    = f.label :password_confirmation
+    .control
+      = f.password_field :password_confirmation, class: 'input'
+  .field
     .control.has-text-right
       = f.submit class: 'button is-primary'
 = debug(params) if Rails.env.development?
