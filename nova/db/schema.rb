@@ -40,6 +40,17 @@ ActiveRecord::Schema.define(version: 2018_05_09_021534) do
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
+  create_table "remit_request_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "target_id", null: false
+    t.integer "amount", null: false
+    t.string "result", limit: 10, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_id"], name: "index_remit_request_results_on_target_id"
+    t.index ["user_id"], name: "index_remit_request_results_on_user_id"
+  end
+
   create_table "remit_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "target_id", null: false

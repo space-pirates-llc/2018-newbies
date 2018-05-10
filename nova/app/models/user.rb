@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :received_remit_requests, class_name: 'RemitRequest', foreign_key: :target_id, dependent: :destroy
   has_many :sent_remit_requests, class_name: 'RemitRequest', dependent: :destroy
+  has_many :received_remit_request_results, class_name: 'RemitRequestResult', foreign_key: :target_id
+  has_many :sent_remit_request_results, class_name: 'RemitRequestResult', foreign_key: :user_id
   has_many :charges, dependent: :destroy
   has_one :credit_card, dependent: :destroy
   has_one :balance, dependent: :destroy
