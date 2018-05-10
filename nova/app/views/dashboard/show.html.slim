@@ -112,7 +112,7 @@
             td= '{{creditCard.last4}}'
             td= '{{creditCard.brand}}'
             td.has-text-right
-              button.button.is-primary(@click="show_card_delete_modal($event)") Delete
+              button.button.is-danger(@click="show_card_delete_modal($event)") Delete
 
   .columns(v-if="currentTab === 'settings'")
     .column.is-12
@@ -197,8 +197,16 @@
   .modal(:class='{ "is-active": isActiveDeleteCreditCard }')
     .modal-background(@click.prevent= "isActiveDeleteCreditCard = false")
     .modal-card
-      senction.modal-card-body
+      section.modal-card-body
         .heading 本当にクレジットカードを削除してよろしいですか？
-        .button.button.is_primary(@click="removeCreditCard($event)" @click.prevent= "isActiveDeleteCreditCard = false ") はい
-        .button.button.is_primary(@click.prevent = "isActiveDeleteCreditCard = false")いいえ
-    button.modal-close.is-large(@click.prevent= "isActiveDeleteCreditCard = false")
+
+        .columns
+          .column.is-2.is-offset-4
+            .field
+              .control
+                button.button.is-danger(@click="removeCreditCard($event)" @click.prevent= "isActiveDeleteCreditCard = false ") はい
+          .column.is-2
+            .field
+              .control
+                button.button(@click.prevent = "isActiveDeleteCreditCard = false")いいえ
+    button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")
