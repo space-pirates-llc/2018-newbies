@@ -24,11 +24,11 @@ RSpec.describe SessionsController, type: :controller do
           end
 
           # [TODO] current_user is nil
-          # it 'should set current user' do
-          #   subject
+          it.pending 'should set current user' do
+            subject
 
-          #   expect(current_user).to eq(user)
-          # end
+            expect(current_user).to eq(user)
+          end
         end
 
         context 'unactivated user' do 
@@ -40,11 +40,11 @@ RSpec.describe SessionsController, type: :controller do
           end
 
           # [TODO] current_user is nil
-          # it 'should set current user' do
-          #   subject
+          it.pending 'should set current user' do
+            subject
 
-          #   expect(current_user).to eq(user)
-          # end
+            expect(current_user).to eq(user)
+          end
         end
       end
     end
