@@ -3,7 +3,7 @@ class Api::UserEmailsController < Api::ApplicationController
     if user_email_exists?(params[:email])
       render json: {}
     else
-        render json: { error: 'Not found'}, status: :not_found
+      render json: { error: 'Not found'}, status: :not_found
     end
   end
 
