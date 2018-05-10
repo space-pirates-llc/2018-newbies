@@ -18,18 +18,6 @@ class RemitRequest < ApplicationRecord
   scope :canceled, ->(at = Time.current) { where(RemitRequest.arel_table[:canceled_at].lteq(at)) }
   scope :not_canceled, ->(at = Time.current) { where(canceled_at: nil).or(where(RemitRequest.arel_table[:canceled_at].gt(at))) }
 
-  def validate_equal_user_and_target
-    if user.email == target.email
-      errors.add(:base, "自分宛にリクエストは作成できません。")
-    end
-  end
-
-  def validate_nonexist_target
-    if User.where(email: target.email).blank?
-      errors.add(:base, "登録されていないユーザーです。")
-    end
-  end
-
   def outstanding?(at = Time.current)
     !accepted?(at) && !rejected?(at) && !canceled?(at)
   end
@@ -44,5 +32,19 @@ class RemitRequest < ApplicationRecord
 
   def canceled?(at = Time.current)
     canceled_at && canceled_at <= at
+  end
+
+  private
+
+  def validate_equal_user_and_target
+    if user.email == target.email
+      errors.add(:base, "自分宛にリクエストは作成できません。")
+    end
+  end
+
+  def validate_nonexist_target
+    if User.where(email: target.email).blank?
+      errors.add(:base, "登録されていないユーザーです。")
+    end
   end
 end
