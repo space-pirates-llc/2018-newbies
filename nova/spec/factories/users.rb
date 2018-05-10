@@ -11,4 +11,13 @@ FactoryBot.define do
     reset_digest { User.digest(User.new_token) }
     reset_sent_at { Time.zone.now }
   end
+
+  trait :with_activated do
+    activated true
+  end
+
+  trait :not_activated do
+    activated false
+  end
+
 end
