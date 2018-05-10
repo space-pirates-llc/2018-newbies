@@ -8,12 +8,11 @@ class UsersController < ApplicationController
   def create
     @user = User.create(user_params)
     if @user.save
-      log_in @user
       @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
+      flash[:notice] = "アカウント有効化のメールを送信しました。"
       redirect_to signup_url
     else
-      flash[:alert] = "Parameters error" 
+      flash[:alert] = "Parameters error"
       render :new, status: :bad_request
     end
   end
