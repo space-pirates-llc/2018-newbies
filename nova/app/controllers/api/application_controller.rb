@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::ApplicationController < ActionController::API
-  #giinclude Loginable
   include AbstractController::Translation
 
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
