@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      balance: "Balance"
+    attributes:
+      balance:
+        id: "ID"
+        user_id: "UserId"
+        balance: "Balance"
