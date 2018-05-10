@@ -8,30 +8,30 @@ RSpec.describe RemitRequest, type: :model do
   it { is_expected.to be_valid }
 
   describe "method" do
-    let(:target_user_amount) { 1000 }
+    let(:request_user_amount) { 1000 }
 
-    let(:source_user) do
+    let(:request_user) do
       user = build(:user)
-      user.build_balance(amount: user_amount)
+      user.build_balance(amount: request_user_amount)
       user.save!
       user
     end
-    let(:target_user) do
+    let(:requested_user) do
       user = build(:user)
-      user.build_balance(amount: target_user_amount)
+      user.build_balance(amount: requested_user_amount)
       user.save!
       user
     end
 
     let(:remit_request) do
-      create(:remit_request, amount: request_amount, user: source_user, target: target_user)
+      create(:remit_request, amount: remit_amount, user: request_user, requested_user: requested_user)
     end
 
     describe ".accept!" do
       subject(:accept_subject) { remit_request.accept! }
       context "with enough amount" do
-        let (:request_amount) { 5000 }
-        let (:user_amount) { 10000 }
+        let (:remit_amount) { 5000 }
+        let (:requested_user_amount) { 10000 }
 
         before { subject }
 
@@ -40,26 +40,26 @@ RSpec.describe RemitRequest, type: :model do
         end
 
         it "remit_request_result should be created" do
-          result = RemitRequestResult.find_by(user_id: source_user.id)
+          result = RemitRequestResult.find_by(user_id: request_user.id)
           expect(result.present?).to eq true
-          expect(result.amount).to eq request_amount
-          expect(result.user).to eq source_user
-          expect(result.target).to eq target_user
+          expect(result.amount).to eq remit_amount
+          expect(result.user).to eq request_user
+          expect(result.requested_user).to eq requested_user
           expect(result.result).to eq RemitRequestResult::RESULT_ACCEPTED
         end
 
-        it "user's balance should be changed" do
-          expect(source_user.balance.amount).to eq (user_amount - request_amount)
+        it "request user's balance should be changed" do
+          expect(request_user.balance.amount).to eq (request_user_amount + remit_amount)
         end
 
-        it "target's balance should be changed" do
-          expect(target_user.balance.amount).to eq (target_user_amount + request_amount)
+        it "requested user's balance should be changed" do
+          expect(requested_user.balance.amount).to eq (requested_user_amount - remit_amount)
         end
       end
 
       context "without enough amount" do
-        let (:request_amount) { 5000 }
-        let (:user_amount) { 100 }
+        let (:remit_amount) { 5000 }
+        let (:requested_user_amount) { 100 }
 
         describe "exception test" do
           subject { -> { accept_subject } }
@@ -76,15 +76,15 @@ RSpec.describe RemitRequest, type: :model do
           end
 
           it "remit_request_result should not be created" do
-            expect(RemitRequestResult.find_by(user_id: source_user.id).present?).to eq false
+            expect(RemitRequestResult.find_by(user_id: request_user.id).present?).to eq false
           end
 
-          it "user's balance shouldn't be changed" do
-            expect(source_user.balance.amount).to eq user_amount
+          it "request user's balance shouldn't be changed" do
+            expect(request_user.balance.amount).to eq request_user_amount
           end
 
-          it "target's balance shouldn't be changed" do
-            expect(target_user.balance.amount).to eq target_user_amount
+          it "requested user's balance shouldn't be changed" do
+            expect(requested_user.balance.amount).to eq requested_user_amount
           end
         end
       end
@@ -92,8 +92,8 @@ RSpec.describe RemitRequest, type: :model do
 
     describe ".reject!" do
       subject { remit_request.reject! }
-      let (:request_amount) { 5000 }
-      let (:user_amount) { 10000 }
+      let (:remit_amount) { 5000 }
+      let (:requested_user_amount) { 10000 }
 
       before { subject }
 
@@ -102,19 +102,19 @@ RSpec.describe RemitRequest, type: :model do
       end
 
       it "remit_request_result should be created" do
-        result = RemitRequestResult.find_by(user_id: source_user.id)
+        result = RemitRequestResult.find_by(user_id: request_user.id)
         expect(result.present?).to eq true
-        expect(result.amount).to eq request_amount
-        expect(result.user).to eq source_user
-        expect(result.target).to eq target_user
+        expect(result.amount).to eq remit_amount
+        expect(result.user).to eq request_user
+        expect(result.requested_user).to eq requested_user
         expect(result.result).to eq RemitRequestResult::RESULT_REJECTED
       end
     end
 
     describe ".cancel!" do
       subject { remit_request.cancel! }
-      let (:request_amount) { 5000 }
-      let (:user_amount) { 10000 }
+      let (:remit_amount) { 5000 }
+      let (:requested_user_amount) { 10000 }
 
       before { subject }
 
@@ -123,11 +123,11 @@ RSpec.describe RemitRequest, type: :model do
       end
 
       it "remit_request_result should be created" do
-        result = RemitRequestResult.find_by(user_id: source_user.id)
+        result = RemitRequestResult.find_by(user_id: request_user.id)
         expect(result.present?).to eq true
-        expect(result.amount).to eq request_amount
-        expect(result.user).to eq source_user
-        expect(result.target).to eq target_user
+        expect(result.amount).to eq remit_amount
+        expect(result.user).to eq request_user
+        expect(result.requested_user).to eq requested_user
         expect(result.result).to eq RemitRequestResult::RESULT_CANCELED
       end
     end

@@ -7,28 +7,28 @@ class RemitService
 
     def execute!(remit_request)
       ActiveRecord::Base.transaction do
-        # balanceの整合性を担保するため、悲観的ロックをかける
-        aquire_lock!(user_balance, target_balance)
-
         user_balance = remit_request.user.balance
-        target_balance = remit_request.target.balance
+        requested_user_balance = remit_request.requested_user.balance
 
-        raise InsufficientBalanceError unless can_remit?(user_balance, remit_request.amount)
+        # balanceの整合性を担保するため、悲観的ロックをかける
+        aquire_lock!(user_balance, requested_user_balance)
 
-        transfer_balance!(user_balance, target_balance, remit_request.amount)
+        raise InsufficientBalanceError unless can_remit?(requested_user_balance, remit_request.amount)
+
+        transfer_balance!(user_balance, requested_user_balance, remit_request.amount)
         finalize_remit_request!(remit_request)
 
-        release_lock!(user_balance, target_balance)
+        release_lock!(user_balance, requested_user_balance)
       end
     end
 
-    def can_remit?(user_balance, amount)
-      user_balance.can_withdraw?(amount)
+    def can_remit?(requested_user_balance, amount)
+      requested_user_balance.can_withdraw?(amount)
     end
 
-    def transfer_balance!(user_balance, target_balance, amount)
-      user_balance.withdraw!(amount)
-      target_balance.deposit!(amount)
+    def transfer_balance!(user_balance, requested_user_balance, amount)
+      requested_user_balance.withdraw!(amount)
+      user_balance.deposit!(amount)
     end
 
     def finalize_remit_request!(remit_request)
@@ -36,14 +36,14 @@ class RemitService
       remit_request.destroy!
     end
 
-    def aquire_lock!(user_balance, target_balance)
+    def aquire_lock!(user_balance, requested_user_balance)
       user_balance.lock!
-      target_balance.lock!
+      requested_user_balance.lock!
     end
 
-    def release_lock!(user_balance, target_balance)
+    def release_lock!(user_balance, requested_user_balance)
       user_balance.save!
-      target_balance.save!
+      requested_user_balance.save!
     end
   end
 end

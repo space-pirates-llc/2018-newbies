@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :remit_request do
     user { create(:user) }
-    target { create(:user) }
+    requested_user { create(:user) }
     amount 100
 
     trait :outstanding do

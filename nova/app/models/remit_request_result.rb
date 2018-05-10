@@ -6,7 +6,7 @@ class RemitRequestResult < ApplicationRecord
   MAX_REMIT_AMOUNT = 99_999_999 # TODO: RemitRequestと共通化
 
   belongs_to :user
-  belongs_to :target, class_name: 'User'
+  belongs_to :requested_user, class_name: 'User'
 
   validates :amount, presence: true, numericality: { only_integer: true,
                                                      greater_than_or_equal_to: MIN_REMIT_AMOUNT,
@@ -20,7 +20,7 @@ class RemitRequestResult < ApplicationRecord
 
   def self.create_from_remit_request!(remit_request, result)
     create!(user: remit_request.user,
-            target: remit_request.target,
+            requested_user: remit_request.requested_user,
             amount: remit_request.amount,
             result: result)
   end

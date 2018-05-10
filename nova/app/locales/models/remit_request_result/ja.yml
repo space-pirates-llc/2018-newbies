@@ -6,5 +6,5 @@ ja:
       remit_request_result:
         id: "ID"
         user_id: "UserId"
-        target_id: "TargetId"
+        requested_user_id: "TargetId"
         amount: "Amount"

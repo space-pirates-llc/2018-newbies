@@ -2,7 +2,7 @@
 
 class RemitRequest < ApplicationRecord
   belongs_to :user
-  belongs_to :target, class_name: 'User'
+  belongs_to :requested_user, class_name: 'User'
 
   validates :amount, numericality: { greater_then: 0 }
 
