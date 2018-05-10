@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :sent_remit_requests, class_name: 'RemitRequest', dependent: :destroy
   has_many :charges, dependent: :destroy
   has_one :credit_card, dependent: :destroy
+  has_one :balance, dependent: :destroy
 
   validates :nickname, presence: true
   validates :email, presence: true, uniqueness: true
