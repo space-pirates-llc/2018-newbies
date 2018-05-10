@@ -7,4 +7,8 @@ FactoryBot.define do
     password { 'password' }
     password_confirmation { 'password' }
   end
+  after(:build) do |instance|
+    binding.pry
+    instance.balance ||= build(:balance, user: instance)
+  end
 end

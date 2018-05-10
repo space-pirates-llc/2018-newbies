@@ -44,8 +44,16 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
     end
 
     context 'with logged in' do
+      let(:user) { create(:user) }
+      let(:target) { create(:user) }
+      let(:remit_request) { create(:remit_request, target: user) }
       before { login!(user) }
+      it do
+        expect{ subject }.to change {
+          user.balance.reload.amount
+        }.from(500).to(1000)
 
+      end
       it { is_expected.to have_http_status(:ok) }
     end
   end
