@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Api::RemitRequestsController, type: :controller do
   let(:user) { create(:user) }
-  let(:target) { create(:user) }
-  let(:remit_request) { create(:remit_request, target: user) }
+  let(:requested_user) { create(:user) }
+  let(:remit_request) { create(:remit_request, user: user, requested_user: requested_user) }
 
   describe 'GET #index' do
     subject { get :index }
@@ -22,7 +22,7 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, params: { emails: [target.email], amount: 3000 } }
+    subject { post :create, params: { emails: [requested_user.email], amount: 3000 } }
 
     context 'without logged in' do
       it { is_expected.to have_http_status(:unauthorized) }
@@ -43,7 +43,10 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
     end
 
     context 'with logged in' do
-      before { sign_in(user) }
+      before do
+        sign_in(user)
+        requested_user.balance.update_attribute(:amount, 1000000)
+      end
 
       it { is_expected.to have_http_status(:ok) }
     end

@@ -52,7 +52,7 @@ RSpec.describe RemitRequestResult, type: :model do
       end
     end
 
-    %i[user_id target_id].each do |column|
+    %i[user_id requested_user_id].each do |column|
       describe column do
         context "when #{column} is empty" do
           subject(:remit_request_result) { build_stubbed(:remit_request_result, column => nil) }

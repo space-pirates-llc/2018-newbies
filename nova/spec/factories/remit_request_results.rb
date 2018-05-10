@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :remit_request_result do
     association :user, factory: :user
-    association :target, factory: :user
+    association :requested_user, factory: :user
     amount 100
     result 'accepted'
 
