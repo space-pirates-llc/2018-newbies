@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
       page: 1,
       currentTab: 'remits',
       amount: 0,
+      chargeAmount: 0,
       charges: [],
       recvRemits: [],
       sentRemits: [],
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         self.charges = json.charges;
       });
 
-      api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
+      api.get('/api/remit_requests').
         then(function(json) {
           self.maxPage = json.max_pages
           self.recvRemits = json.remit_requests;
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
       setInterval(function() {
-        api.get('/api/remit_requests', { status: 'outstanding', page: self.page }).
+        api.get('/api/remit_requests', { page: self.page }).
           then(function(json) {
             self.recvRemits = json.remit_requests;
           });
@@ -113,6 +114,18 @@ document.addEventListener('DOMContentLoaded', function() {
         api.post('/api/charges', { amount: amount }).
           then(function(json) {
             self.amount += amount;
+            self.charges.unshift(json);
+          }).
+          catch(function(err) {
+            console.error(err);
+          });
+      },
+      valueCharge: function(event) {
+        var self = this;
+
+         api.post('/api/charges', { amount: parseInt(self.chargeAmount) }).
+          then(function(json) {
+            self.amount += parseInt(self.chargeAmount);
             self.charges.unshift(json);
           }).
           catch(function(err) {
@@ -203,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
       updateRemixPage: function(next) {
         var self = this;
 
-        api.get('/api/remit_requests', { status: 'outstanding', page: next }).
+        api.get('/api/remit_requests', { page: next }).
         then(function(json) {
           self.recvRemits = json.remit_requests;
           document.getElementsByClassName('pagination-link')[self.page-1].classList.remove('is-current')
