@@ -14,7 +14,9 @@ class User < ApplicationRecord
 
   validates :nickname, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$\z/i
   validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true, format: { with: VALID_PASSWORD_REGEX }
 
   after_create :create_stripe_customer
 
