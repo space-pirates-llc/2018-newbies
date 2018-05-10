@@ -23,11 +23,10 @@ class Api::RemitRequestsController < Api::ApplicationController
     @remit_request.update!(accepted_at: Time.now)
 
     # 残高の更新
-    sender = @remit_request.user
-    receiver =  @remit_request.target
+    sender =  @remit_request.target
+    receiver = @remit_request.user
     #悲観的ロック
     sender.balance.lock!
-    receiver.balance.lock!
     sender.balance.amount -= @remit_request.amount
     receiver.balance.amount += @remit_request.amount
     sender.balance.save!
