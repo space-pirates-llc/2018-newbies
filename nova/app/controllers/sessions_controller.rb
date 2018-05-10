@@ -10,11 +10,9 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:user][:password])
       if @user.activated?
         log_in @user
-        redirect_to dashboard_path
+        redirect_to dashboard_path, notice: 'ログインしました'
       else
-        message = "Account not activated."
-        message += "Check your email for the activation link."
-        flash[:warning] = message
+        flash[:alert] = 'アカウント有効化のメールを送信しました。'
         redirect_to root_url
       end
     else
@@ -24,7 +22,7 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out if logged_in?
-    redirect_to login_path
+    redirect_to login_path, notice: 'ログアウトしました'
   end
 
   protected
