@@ -148,6 +148,14 @@
     .modal-card
       senction.modal-card-body
         .heading 本当にチャージしますか？
-        .button.button.is-success(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
-        .button.button(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
+
+        .columns
+          .column.is-2.is-offset-4
+            .field
+              .control
+                button.button.is-success(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
+          .column.is-2
+            .field
+              .control
+                button.button(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
     button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")
