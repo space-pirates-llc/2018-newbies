@@ -51,7 +51,7 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
       it do
         expect{ subject }.to change {
           user.balance.reload.amount
-        }.from(500).to(1000)
+        }.from(1).to(101)
 
       end
       it { is_expected.to have_http_status(:ok) }
