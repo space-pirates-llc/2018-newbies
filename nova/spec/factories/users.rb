@@ -14,10 +14,12 @@ FactoryBot.define do
 
   trait :with_activated do
     activated true
+    activated_at { Time.now }
   end
 
   trait :not_activated do
     activated false
+    activated_at { Time.now }
   end
 
 end
