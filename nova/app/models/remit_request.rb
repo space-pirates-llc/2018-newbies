@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class RemitRequest < ApplicationRecord
-  class InsufficientBalanceError < StandardError; end
-
   belongs_to :user
   belongs_to :target, class_name: 'User'
 
@@ -33,22 +31,7 @@ class RemitRequest < ApplicationRecord
   end
 
   def accept!
-    ActiveRecord::Base.transaction do
-      # Balanceを整合性を担保しながら更新するため、userのbalanceに対して悲観的ロックをかける
-      user.balance.lock!
-      target.balance.lock!
-
-      raise InsufficientBalanceError unless user.balance.can_withdraw?(amount)
-
-      user.balance.withdraw!(amount)
-      target.balance.deposit!(amount)
-
-      RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_ACCEPTED)
-      destroy!
-
-      user.balance.save!
-      target.balance.save!
-    end
+    RemitService.execute!(self)
   end
 
   def reject!

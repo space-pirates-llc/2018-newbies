@@ -63,7 +63,7 @@ RSpec.describe RemitRequest, type: :model do
 
         describe "exception test" do
           subject { -> { accept_subject } }
-          it { is_expected.to raise_error(RemitRequest::InsufficientBalanceError) }
+          it { is_expected.to raise_error(RemitService::InsufficientBalanceError) }
         end
 
         describe "not exception test" do
