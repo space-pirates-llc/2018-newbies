@@ -12,7 +12,7 @@ class Api::UsersController < Api::ApplicationController
                            password: user_params[:password],
                            password_confirmation: user_params[:passoword_confirmation])
     else
-      current_user.update!(nickname: user_params[:nickname], email: user_params[:email])
+      current_user.update_columns(nickname: user_params[:nickname], email: user_params[:email])
     end
 
     render json: current_user
