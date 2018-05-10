@@ -2,9 +2,10 @@
 
 class Api::RemitRequestsController < Api::ApplicationController
   def index
+    @sent_remit_requests = current_user.sent_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
     @remit_requests = current_user.received_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
 
-    render json: @remit_requests.as_json(include: :user)
+    render json: {sent: @sent_remit_requests.as_json(include: :user), request: @remit_requests.as_json(include: :user)}
   end
 
   def create

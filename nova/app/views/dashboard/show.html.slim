@@ -47,22 +47,42 @@
       .section
         button.button.is-info.is-fullwidth(@click="isActiveNewRemitForm = true")
           | Make New Remit Request
+      .column.is-12
+        .is-clearfix
+          .tabs.is-small
+            ul
+              li(:class= "{'is-active': currentRimitTab === 'sent'}")
+                a(@click="currentRimitTab = 'sent'") Sent
+              li(:class= "{'is-active': currentRimitTab === 'request'}")
+                a(@click="currentRimitTab = 'request'") request
+      .columns(v-if="currentRimitTab === 'sent'")
+        .column.is-12
+          table.table.is-fullwidth
+            thead
+              tr
+                th To
+                th Amount
+            tbody
+              tr(v-for="remit in sentRemits")
+                td= '{{remit.user.nickname}}({{remit.user.email}})'
+                td= '{{remit.amount}}円'
 
-      table.table.is-fullwidth
-        thead
-          tr
-            th From
-            th Amount
-            th.has-text-right
-        tbody
-          tr(v-for="remit in recvRemits")
-            td= '{{remit.user.nickname}}({{remit.user.email}})'
-            td= '{{remit.amount}}円'
-            td
-              .buttons.is-right
-                button.button.is-small(:disabled="amount < remit.amount" @click='accept(remit.id, $event)') Accept
-                button.button.is-small(@click='reject(remit.id, $event)') Reject
-
+      .columns(v-if="currentRimitTab === 'request'")
+        .column.is-12
+          table.table.is-fullwidth
+            thead
+              tr
+                th From
+                th Amount
+                th.has-text-right
+            tbody
+              tr(v-for="remit in recvRemits")
+                td= '{{remit.user.nickname}}({{remit.user.email}})'
+                td= '{{remit.amount}}円'
+                td
+                  .buttons.is-right
+                    button.button.is-small(:disabled="amount < remit.amount" @click='accept(remit.id, $event)') Accept
+                    button.button.is-small(@click='reject(remit.id, $event)') Reject
   .columns(v-if="currentTab === 'charge'")
     .column.is-12
       .heading Charge Log
