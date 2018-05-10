@@ -4,7 +4,11 @@ class RemitRequest < ApplicationRecord
   belongs_to :user
   belongs_to :target, class_name: 'User'
 
-  validates :amount, numericality: { greater_than: 0, only_integer: true }
+  validates :amount, numericality: { greater_than: 0, only_integer: true }, presence: true
+  validates :user
+  validates :target
+  validate :validate_equal_user_and_target
+  validate :validate_nonexist_target
 
   scope :outstanding, ->(at = Time.current) { not_accepted(at).not_rejected(at).not_canceled(at) }
   scope :accepted, ->(at = Time.current) { where(RemitRequest.arel_table[:accepted_at].lteq(at)) }
@@ -28,5 +32,19 @@ class RemitRequest < ApplicationRecord
 
   def canceled?(at = Time.current)
     canceled_at && canceled_at <= at
+  end
+
+  private
+
+  def validate_equal_user_and_target
+    if user.email == target.email
+      errors.add(:base, "自分宛にリクエストは作成できません。")
+    end
+  end
+
+  def validate_nonexist_target
+    if User.where(email: target.email).blank?
+      errors.add(:base, "登録されていないユーザーです。")
+    end
   end
 end
