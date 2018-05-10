@@ -92,25 +92,39 @@
             td= '{{creditCard.last4}}'
             td= '{{creditCard.brand}}'
             td.has-text-right
-              button.button.is-primary(@click="removeCreditCard($event)") Delete
+              button.button.is-danger(@click="removeCreditCard($event)") Delete
 
   .columns(v-if="currentTab === 'settings'")
     .column.is-12
       .heading Settings
 
-      form(@submit="updateUser($event)")
+      form(@submit="updateUserNickname($event)")
         .field
           label.label Nickname
           .control
             input.input(type="text" v-model="user.nickname")
         .field
-          label.label E-Mail
+          .control.has-text-right
+            button.button.is-primary(type="submit") Update
+
+      form(@submit="updateUserEmail($event)")
+        .field
+          label.label Email
           .control
             input.input(type="email" v-model="user.email")
+        .field
+          .control.has-text-right
+            button.button.is-primary(type="submit") Update
+
+      form(@submit="updateUserPassword($event)")
         .field
           label.label Password
           .control
             input.input(type="password" v-model="user.password")
+        .field
+          label.label Password Confirmation
+          .control
+            input.input(type="password" v-model="user.password_confirmation")
         .field
           .control.has-text-right
             button.button.is-primary(type="submit") Update
@@ -146,8 +160,16 @@
   .modal(:class='{ "is-active": isActiveChargeConfirmDialog }')
     .modal-background(@click.prevent= "isActiveChargeConfirmDialog = false")
     .modal-card
-      senction.modal-card-body
+      section.modal-card-body
         .heading 本当にチャージしますか？
-        .button.button.is_primary(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
-        .button.button.is_primary(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
+
+        .columns
+          .column.is-2.is-offset-4
+            .field
+              .control
+                button.button.is-success(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
+          .column.is-2
+            .field
+              .control
+                button.button(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
     button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")

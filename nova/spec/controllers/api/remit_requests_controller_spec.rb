@@ -32,6 +32,7 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
       before { login!(user) }
 
       it { is_expected.to have_http_status(:created) }
+      it { expect { subject }.to change(RemitRequest, :count).by(1) }
     end
   end
 

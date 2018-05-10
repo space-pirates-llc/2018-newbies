@@ -37,15 +37,39 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       context 'with invalid record params' do
-        let(:user_params) { { user: { email: '' } } }
+        let(:user_params) { { user: { email: '' }, attribute: 'email' } }
 
         it { is_expected.to have_http_status(:unprocessable_entity) }
       end
 
       context 'with valid params' do
-        let(:user_params) { { user: { nickname: 'John Doe' } } }
+        context 'change nickname' do
+          let(:user_params) { { user: { nickname: 'Hogemaru' }, attribute: 'nickname' } }
 
-        it { is_expected.to have_http_status(:ok) }
+          it do
+            is_expected.to have_http_status(:ok)
+
+            expect(user.reload.nickname).to eq 'Hogemaru'
+          end
+        end
+
+        context 'change email' do
+          let(:user_params) { { user: { email: 'valid@email.com' }, attribute: 'email' } }
+
+          it do
+            is_expected.to have_http_status(:ok)
+
+            expect(user.reload.email).to eq 'valid@email.com'
+          end
+        end
+
+        context 'change password' do
+          let(:user_params) { { user: { password: 'validpassword', password_confirmation: 'validpassword' }, attribute: 'password' } }
+
+          it do
+            is_expected.to have_http_status(:ok)
+          end
+        end
       end
     end
   end
