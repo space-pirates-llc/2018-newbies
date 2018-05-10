@@ -1,0 +1,15 @@
+#charge_confirm.modal(:class='{ "is-active": isChargeConfirm }')
+  .modal-background(@click.prevent="isChargeConfirm = false")
+  .modal-card
+    section.modal-card-body
+      .columns
+        .column.is-6.is-offset-3
+          .heading 確認
+          h1.has-text-centered
+            = '{{chargeAmount}}円をチャージしますか？'
+      .columns
+        .column.is-6.has-text-right
+          button.button.is-info(@click="isChargeConfirm = false") キャンセル
+        .column.is-6.has-text-left
+          button.button.is-primary(@click="charge($event)") 承認する
+  button.modal-close.is-large(@click.prevent="isChargeConfirm = false")

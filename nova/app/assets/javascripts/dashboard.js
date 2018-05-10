@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
       page: 1,
       currentTab: 'remits',
       amount: 0,
+      chargeForm: 0,
       chargeAmount: 0,
       charges: [],
       recvRemits: [],
@@ -66,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
       maxPage: 1,
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
+      isChargeConfirm: false,
       target: "",
       user: {
         email: "",
@@ -107,26 +109,23 @@ document.addEventListener('DOMContentLoaded', function() {
       if(form){ creditCard.mount(form); }
     },
     methods: {
-      charge: function(amount, event) {
-        if(event) { event.preventDefault(); }
+      chargeModal: function(amount, event) {
+        var self = this;
+        self.chargeAmount = parseInt(amount);
+        self.isChargeConfirm = true;
 
+      },
+      charge: function(event) {
+        if(event) { event.preventDefault(); }
+        var self = this;
+
+        const amount = self.chargeAmount;
         var self = this;
         api.post('/api/charges', { amount: amount }).
           then(function(json) {
-            self.amount += amount;
+            self.amount += amount
             self.charges.unshift(json);
-          }).
-          catch(function(err) {
-            console.error(err);
-          });
-      },
-      valueCharge: function(event) {
-        var self = this;
-
-         api.post('/api/charges', { amount: parseInt(self.chargeAmount) }).
-          then(function(json) {
-            self.amount += parseInt(self.chargeAmount);
-            self.charges.unshift(json);
+            self.isChargeConfirm = false;
           }).
           catch(function(err) {
             console.error(err);
