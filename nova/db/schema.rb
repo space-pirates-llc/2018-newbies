@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2018_05_10_015320) do
 
   create_table "balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.integer "amount", default: 0
+    t.integer "amount", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
