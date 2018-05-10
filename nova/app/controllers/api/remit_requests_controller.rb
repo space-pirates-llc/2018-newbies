@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::RemitRequestsController < Api::ApplicationController
+  before_action :set_remit_request, only: [:accept, :reject, :cancel]
+
   def index
     @sent_remit_requests = current_user.sent_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
     @remit_requests = current_user.received_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
@@ -20,8 +22,6 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def accept
-
-    @remit_request = RemitRequest.find(params[:id])
     @remit_request.update!(accepted_at: Time.now)
 
     # 残高の更新
@@ -47,16 +47,19 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def reject
-    @remit_request = RemitRequest.find(params[:id])
     @remit_request.update!(rejected_at: Time.now)
 
     render json: {}, status: :ok
   end
 
   def cancel
-    @remit_request = RemitRequest.find(params[:id])
     @remit_request.update!(canceled_at: Time.now)
 
     render json: {}, status: :ok
   end
+
+  private
+    def set_remit_request
+      @remit_request = RemitRequest.find(params[:id])
+    end
 end
