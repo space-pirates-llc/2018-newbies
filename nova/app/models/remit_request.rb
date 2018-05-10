@@ -5,8 +5,8 @@ class RemitRequest < ApplicationRecord
   belongs_to :target, class_name: 'User'
 
   validates :amount, numericality: { greater_than: 0, only_integer: true }, presence: true
-  validates :user, presence: true
-  validates :target, presence: true
+  validates :user
+  validates :target
   validate :validate_equal_user_and_target
   validate :validate_nonexist_target
 
