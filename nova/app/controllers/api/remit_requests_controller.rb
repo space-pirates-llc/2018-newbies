@@ -20,25 +20,28 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def accept
+
     @remit_request = RemitRequest.find(params[:id])
     @remit_request.update!(accepted_at: Time.now)
 
     # 残高の更新
-    sender =  @remit_request.target
-    receiver = @remit_request.user
     #悲観的ロック
-    #ロックする順番をid順にすることでデットロックを回避する
-    if sender.id < receiver.id
-      sender.balance.lock!
-      receiver.balance.lock!
-    else
-      receiver.balance.lock!
-      sender.balance.lock!
+    Balance.transaction do
+      sender =  @remit_request.target
+      receiver = @remit_request.user
+      #ロックする順番をid順にすることでデットロックを回避する
+      if sender.id < receiver.id
+        sender.balance.lock!
+        receiver.balance.lock!
+      else
+        receiver.balance.lock!
+        sender.balance.lock!
+      end
+      sender.balance.amount -= @remit_request.amount
+      receiver.balance.amount += @remit_request.amount
+      sender.balance.save!
+      receiver.balance.save!
     end
-    sender.balance.amount -= @remit_request.amount
-    receiver.balance.amount += @remit_request.amount
-    sender.balance.save!
-    receiver.balance.save!
 
     render json: {}, status: :ok
   end
