@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  devise_for :users, skip: :all
   devise_scope :user do
     get 'users/sign_in', to: 'users/sessions#new', as: 'new_user_session'
     post 'users/sign_in', to: 'users/sessions#create', as: 'user_session'
