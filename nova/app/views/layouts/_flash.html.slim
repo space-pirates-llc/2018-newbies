@@ -7,3 +7,8 @@
   .message.is-danger
     .message-body
       = flash.now[:alert]
+
+- if flash.now[:success]
+  .message.is-success
+    .message-body
+      = flash.now[:success]
