@@ -5,16 +5,17 @@ module RSpec::LoginHelper
 
   def login!(user = nil)
     user ||= FactoryBot.create(:user)
+    user.activated = true
     self.current_user = user
     user
   end
 
   def current_user
-    User.find_by(id: cookies[Loginable::COOKIE_NAME])
+    User.find_by(id: session[:user_id])
   end
 
   def current_user=(user)
-    cookies[Loginable::COOKIE_NAME] = user&.id
+    session[:user_id] = user&.id
   end
 end
 
