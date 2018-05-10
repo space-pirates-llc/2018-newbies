@@ -19,8 +19,17 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def accept
+
     @remit_request = RemitRequest.find(params[:id])
     @remit_request.update!(accepted_at: Time.now)
+
+    # 残高の更新
+    sender = @remit_request.user
+    receiver =  @remit_request.target
+    sender.balance.amount -= @remit_request.amount
+    receiver.balance.amount += @remit_request.amount
+    sender.balance.update(amount: sender.balance.amount)
+    receiver.balance.update(amount: receiver.balance.amount)
 
     render json: {}, status: :ok
   end

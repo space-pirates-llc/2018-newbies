@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(event) { event.preventDefault(); }
 
         var self = this;
-        api.post('/api/remit_requests/' + id + '/accept').
+        api.post('/api/remit_requests/' + id + '/accept', this.newRemitRequest).
           then(function() {
             self.recvRemits = self.recvRemits.filter(function(r) {
               if(r.id != id) {
