@@ -19,7 +19,6 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def accept
-
     @remit_request = RemitRequest.find(params[:id])
     @remit_request.update!(accepted_at: Time.now)
 
