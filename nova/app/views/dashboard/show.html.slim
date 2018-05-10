@@ -146,7 +146,7 @@
   .modal(:class='{ "is-active": isActiveChargeConfirmDialog }')
     .modal-background(@click.prevent= "isActiveChargeConfirmDialog = false")
     .modal-card
-      senction.modal-card-body
+      section.modal-card-body
         .heading 本当にチャージしますか？
         .button.button.is_primary(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
         .button.button.is_primary(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
