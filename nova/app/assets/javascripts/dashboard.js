@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
       isActiveChargeConfirmDialog: false,
+      isActiveDeleteCreditCard: false,
       target: "",
       creditCard: {
         brand: "",
@@ -115,9 +116,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if(form){ creditCard.mount(form); }
     },
     methods: {
-      show_modal: function(amount) {
+      show_charge_modal: function(amount) {
         this.charge_amount = amount;
         this.isActiveChargeConfirmDialog = true;
+      },
+      show_card_delete_modal: function(amount) {
+        this.isActiveDeleteCreditCard = true;
       },
       charge: function(amount, event) {
         if(event) { event.preventDefault(); }
