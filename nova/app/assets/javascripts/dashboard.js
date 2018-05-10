@@ -146,16 +146,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
       addTarget: function(event) {
         if(event) { event.preventDefault(); }
+        var self = this;
         api.post('/api/user_emails', { email: this.target} ).
             then(function (json) {
               if(json.error == 'Not found'){
                 alert("そのメールアドレスは登録されていません")
               }else{
+                if(!self.newRemitRequest.emails.includes(self.target)){
+                  self.newRemitRequest.emails.push(self.target)
+                }
               }
         })
-        if(!this.newRemitRequest.emails.includes(this.target)) {
-          this.newRemitRequest.emails.push(this.target);
-        }
       },
       removeTarget: function(email, event) {
         if(event) { event.preventDefault(); }
