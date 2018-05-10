@@ -16,7 +16,7 @@ RSpec.describe UsersController, type: :controller do
     context 'with valid params' do
       let(:user_params) { attributes_for(:user) }
 
-      it { is_expected.to redirect_to(dashboard_path) }
+      it { is_expected.to redirect_to(signup_path) }
     end
 
     context 'with invalid params' do
