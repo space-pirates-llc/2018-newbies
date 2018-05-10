@@ -6,16 +6,19 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def update
-    if user_params[:password] && user_params[:password_confirmation]
-      current_user.update!(nickname: user_params[:nickname],
-                           email: user_params[:email]&.downcase,
-                           password: user_params[:password],
-                           password_confirmation: user_params[:passoword_confirmation])
+    case user_params[:attribute]
+    when 'nickname'
+      current_user.update!(nickname: user_params[:nickname])
+      render json: current_user
+    when 'email'
+      current_user.update!(email: user_params[:email]&.downcase)
+      render json: current_user
+    when 'password'
+      current_user.update!(password: user_params[:password], password_confirmation: user_params[:passoword_confirmation])
+      render json: current_user
     else
-      current_user.update_columns(nickname: user_params[:nickname], email: user_params[:email])
+      render json: current_user, status: :unprocessable_entity
     end
-
-    render json: current_user
   rescue ActiveRecord::RecordInvalid => e
     record_invalid(e)
   end
@@ -23,6 +26,6 @@ class Api::UsersController < Api::ApplicationController
   protected
 
   def user_params
-    params.require(:user).permit(:nickname, :email, :password, :password_confirmation)
+    params.require(:user).permit(:nickname, :email, :password, :password_confirmation).merge(attribute: params[:attribute])
   end
 end
