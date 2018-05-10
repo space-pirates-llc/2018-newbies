@@ -30,7 +30,8 @@ html(lang="#{I18n.locale}" class="#{html_classes.join(' ')}")
           .container
             .columns
               .column.is-8.is-offset-2
-                h1.title Nova
+                h1
+                  = link_to 'Nova', root_path, class: 'title'
                 p.subtitle= meta_tags[:title] || default_meta('title')
 
       .section
@@ -38,5 +39,6 @@ html(lang="#{I18n.locale}" class="#{html_classes.join(' ')}")
           .columns
             .column.is-8.is-offset-2
 
+              = render 'layouts/flash'
               = yield
 

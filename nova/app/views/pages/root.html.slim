@@ -13,11 +13,15 @@ section.hero.is-dark.is-bold.is-medium
               - if logged_in?
                 span.navbar-item
                   = link_to 'Dashboard', dashboard_path, class: 'button is-primary'
+                span.navbar-item
+                  = link_to 'Logout', logout_path, class: 'button is-inverted is-dark'
               - else
                 span.navbar-item
                   = link_to 'Login', login_path, class: 'button is-inverted is-dark'
                 span.navbar-item
                   = link_to 'Signup', signup_path, class: 'button is-primary'
+  .container.column
+    = render 'layouts/flash'
   .hero-body
     .container
       .columns

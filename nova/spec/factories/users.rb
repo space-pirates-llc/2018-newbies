@@ -7,8 +7,8 @@ FactoryBot.define do
     password { FFaker::Internet.password }
   end
 
-  trait :with_activated do
-    activated { true }
-    activated_at { Time.zone.now }
+  trait :with_request_password_reset do
+    reset_digest { User.digest(User.new_token) }
+    reset_sent_at { Time.zone.now }
   end
 end
