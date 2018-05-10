@@ -97,7 +97,7 @@
   .columns(v-if="currentTab === 'settings'")
     .column.is-12
       .heading Settings
-      .p= '{{setting_notice}}'
+      .p= '{{ register_notification}}'
       form(@submit="updateUserNickname($event)")
         .field
           label.label Nickname
