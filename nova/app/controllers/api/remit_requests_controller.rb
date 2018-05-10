@@ -26,7 +26,14 @@ class Api::RemitRequestsController < Api::ApplicationController
     sender =  @remit_request.target
     receiver = @remit_request.user
     #悲観的ロック
-    sender.balance.lock!
+    #ロックする順番をid順にすることでデットロックを回避する
+    if sender.id < receiver.id
+      sender.balance.lock!
+      receiver.balance.lock!
+    else
+      receiver.balance.lock!
+      sender.balance.lock!
+    end
     sender.balance.amount -= @remit_request.amount
     receiver.balance.amount += @remit_request.amount
     sender.balance.save!
