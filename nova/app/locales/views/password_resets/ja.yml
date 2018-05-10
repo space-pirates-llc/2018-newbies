@@ -1,0 +1,8 @@
+ja:
+  password_resets:
+    new:
+      title: "PasswordReset"
+      submit: "メールを送信する"
+    edit:
+      title: "PasswordReset"
+      submit: "パスワードを変更する"

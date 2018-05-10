@@ -18,6 +18,8 @@ section.hero.is-dark.is-bold.is-medium
                   = link_to 'Login', login_path, class: 'button is-inverted is-dark'
                 span.navbar-item
                   = link_to 'Signup', signup_path, class: 'button is-primary'
+  .container.column
+    = render 'layouts/flash'
   .hero-body
     .container
       .columns

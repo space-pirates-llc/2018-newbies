@@ -1,0 +1,13 @@
+= form_for @user, url: password_reset_path(params[:id]) do |f|
+  =  hidden_field_tag :email, @user.email
+  .field
+    = f.label :password
+    .control
+      = f.password_field :password, class: 'input'
+  .field
+    = f.label :password_confirmation
+    .control
+      = f.password_field :password_confirmation, class: 'input'
+  .field
+    .control.has-text-right
+      = f.submit t('.submit'), class: 'button is-primary'
