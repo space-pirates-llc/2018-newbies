@@ -4,10 +4,10 @@ FactoryBot.define do
   factory :user do
     nickname { FFaker::Internet.user_name }
     email { FFaker::Internet.email }
-    password { FFaker::Internet.password }
+    password { 'password' }
+    password_confirmation { 'password' }
     after(:build) do |instance|
       instance.balance ||= build(:balance, user: instance)
     end
   end
-
 end
