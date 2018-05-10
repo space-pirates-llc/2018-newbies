@@ -1,15 +1,16 @@
 <h2>Sign up</h2>
 
 <%= form_for(@user, url: registration_path(@user)) do |f| %>
-  <%= devise_error_messages! %>
   <div class="field">
     <%= f.label :nickname %>
-    <%= f.text_field :nickname %>
+    <div class="control">
+      <%= f.text_field :nickname, class: "input" %>
+    </div>
   </div>
 
   <div class="field">
     <%= f.label :email %><br/>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
   </div>
 
   <div class="field">
@@ -17,17 +18,17 @@
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.password_field :password, autocomplete: "off", class: "input" %>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%= f.password_field :password_confirmation, autocomplete: "off", class: "input" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <div class="has-text-right">
+      <%= f.submit "Sign up", class: 'button is-primary' %>
+    </div>
   </div>
 <% end %>
-
-<%= render "users/shared/links" %>

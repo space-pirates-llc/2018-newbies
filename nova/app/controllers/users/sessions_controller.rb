@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  # configure_sign_in_paramsしなくてもstrong parameterにできているか要確認
   # before_action :configure_sign_in_params, only: [:create]
 
   def new
@@ -10,8 +9,6 @@ class Users::SessionsController < Devise::SessionsController
 
   def create
     super
-    flash.now[:notice] = 'trial'
-    flash.now[:alert] = 'trial2'
   end
 
   def destroy

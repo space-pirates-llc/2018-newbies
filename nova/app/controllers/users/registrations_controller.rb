@@ -12,24 +12,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    @user = User.new
-    @user.save
   end
 
   # GET /resource/edit
-  #def edit
-  #  super
-  #end
+  # def edit
+  #   super
+  # end
 
   # PUT /resource
-  #def update
-  #  super
-  #end
+  # def update
+  #   super
+  # end
 
   # DELETE /resource
-  #def destroy
-  #  super
-  #end
+  # def destroy
+  #   super
+  # end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
@@ -62,8 +60,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
-  #private
-  #def user_params
-  #  params.require(:user).permit(:nickname, :email, :password, :password_confirmation)
-  #end
 end
