@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RemitRequest < ApplicationRecord
+  class InsufficientBalanceError < StandardError; end
+
   belongs_to :user
   belongs_to :target, class_name: 'User'
 
@@ -34,8 +36,7 @@ class RemitRequest < ApplicationRecord
     ActiveRecord::Base.transaction do
       user.balance.lock!
 
-      # TODO: Create custom error
-      raise StandardError unless user.balance.can_withdraw?(amount)
+      raise InsufficientBalanceError unless user.balance.can_withdraw?(amount)
 
       user.balance.withdraw!(amount)
       target.balance.deposit!(amount)
