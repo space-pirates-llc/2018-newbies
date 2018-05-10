@@ -1,7 +1,8 @@
 = form_for @user, url: password_reset_path(params[:id]) do |f|
+  = render 'shared/error_messages', object: f.object
   =  hidden_field_tag :email, @user.email
   .field
-    = f.label :password
+    = f.label 'Password（半角英数字をそれぞれ1種類以上含めてください）'
     .control
       = f.password_field :password, class: 'input'
   .field
