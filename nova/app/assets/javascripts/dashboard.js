@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isActiveNewRemitForm: false,
       isActiveChargeConfirmDialog: false,
       target: "",
+      setting_notice: "",
       creditCard: {
         brand: "",
         last4: "",
