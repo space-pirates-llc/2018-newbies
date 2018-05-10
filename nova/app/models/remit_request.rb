@@ -34,6 +34,7 @@ class RemitRequest < ApplicationRecord
 
   def accept!
     ActiveRecord::Base.transaction do
+      # Balanceを整合性を担保しながら更新するため、userのbalanceに対して悲観的ロックをかける
       user.balance.lock!
 
       raise InsufficientBalanceError unless user.balance.can_withdraw?(amount)
