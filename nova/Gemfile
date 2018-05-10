@@ -53,6 +53,7 @@ group :test do
   gem 'database_rewinder'
   gem 'ffaker'
   gem 'rails-controller-testing'
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'stripe-ruby-mock', require: 'stripe_mock'
