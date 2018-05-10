@@ -38,5 +38,6 @@ html(lang="#{I18n.locale}" class="#{html_classes.join(' ')}")
           .columns
             .column.is-8.is-offset-2
 
+              = render 'layouts/flash'
               = yield
 

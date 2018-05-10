@@ -1,0 +1,9 @@
+- if flash.now[:notice]
+  .message.is-info
+    .message-body
+      = flash.now[:notice]
+
+- if flash.now[:alert]
+  .message.is-danger
+    .message-body
+      = flash.now[:alert]
