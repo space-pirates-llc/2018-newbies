@@ -182,8 +182,8 @@
     .modal-card
       senction.modal-card-body
         .heading 本当にチャージしますか？
-        .button.button.is_primary(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
-        .button.button.is_primary(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
+        .button.button.is-success(@click="charge(charge_amount, $event)" @click.prevent= "isActiveChargeConfirmDialog = false ") はい
+        .button.button(@click.prevent = "isActiveChargeConfirmDialog = false")いいえ
     button.modal-close.is-large(@click.prevent= "isActiveChargeConfirmDialog= false")
 
   .modal(:class='{ "is-active": isActiveDeleteCreditCard }')
