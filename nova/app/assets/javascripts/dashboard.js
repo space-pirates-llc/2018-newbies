@@ -213,6 +213,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=nickname', { user: this.user }).
           then(function(json) {
+            if(json.errors){
+                self.setting_notice = "更新に失敗しました"
+            }else{
+                self.setting_notice = "更新しました"
+            }
             self.user = json;
           });
       },
@@ -222,6 +227,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=email', { user: this.user }).
           then(function(json) {
+            if(json.errors){
+              self.setting_notice = "更新に失敗しました"
+            }else{
+              self.setting_notice = "更新しました"
+            }
             self.user = json;
           });
       },
@@ -231,6 +241,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=password', { user: this.user }).
           then(function(json) {
+            if(json.errors){
+                self.setting_notice = "更新に失敗しました"
+            }else{
+                self.setting_notice = "更新しました"
+            }
             self.user = json;
           });
       },
