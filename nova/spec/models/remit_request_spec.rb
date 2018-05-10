@@ -7,18 +7,128 @@ RSpec.describe RemitRequest, type: :model do
 
   it { is_expected.to be_valid }
 
-  statuses = %i[outstanding accepted rejected canceled]
-  statuses.each do |status|
-    context "with #{status}" do
-      subject(:remit_request) { create(:remit_request, status) }
+  describe "method" do
+    let(:target_user_amount) { 1000 }
 
-      it { is_expected.to send(:"be_#{status}") }
-      it("should record of #{status} scope") { expect(RemitRequest.send(status)).to include(remit_request) }
+    let(:source_user) do
+      user = build(:user)
+      user.build_balance(amount: user_amount)
+      user.save!
+      user
+    end
+    let(:target_user) do
+      user = build(:user)
+      user.build_balance(amount: target_user_amount)
+      user.save!
+      user
+    end
 
-      other_statuses = statuses.reject { |s| s == status }
-      other_statuses.each do |other_status|
-        it { is_expected.to_not send(:"be_#{other_status}") }
-        it("should not record of #{other_status} scope") { expect(RemitRequest.send(other_status)).to_not include(remit_request) }
+    let(:remit_request) do
+      create(:remit_request, amount: request_amount, user: source_user, target: target_user)
+    end
+
+    describe ".accept!" do
+      subject(:accept_subject) { remit_request.accept! }
+      context "with enough amount" do
+        let (:request_amount) { 5000 }
+        let (:user_amount) { 10000 }
+
+        before { subject }
+
+        it "remit_request should be destroyed" do
+          expect(RemitRequest.find_by_id(remit_request.id).present?).to eq false
+        end
+
+        it "remit_request_result should be created" do
+          result = RemitRequestResult.find_by(user_id: source_user.id)
+          expect(result.present?).to eq true
+          expect(result.amount).to eq request_amount
+          expect(result.user).to eq source_user
+          expect(result.target).to eq target_user
+          expect(result.result).to eq RemitRequestResult::RESULT_ACCEPTED
+        end
+
+        it "user's balance should be changed" do
+          expect(source_user.balance.amount).to eq (user_amount - request_amount)
+        end
+
+        it "target's balance should be changed" do
+          expect(target_user.balance.amount).to eq (target_user_amount + request_amount)
+        end
+      end
+
+      context "without enough amount" do
+        let (:request_amount) { 5000 }
+        let (:user_amount) { 100 }
+
+        describe "exception test" do
+          subject { -> { accept_subject } }
+          it { is_expected.to raise_error(StandardError) }
+        end
+
+        describe "not exception test" do
+          subject { accept_subject rescue nil }
+
+          before { subject }
+
+          it "remit_request should not be destroyed" do
+            expect(RemitRequest.find_by_id(remit_request.id).present?).to eq true
+          end
+
+          it "remit_request_result should not be created" do
+            expect(RemitRequestResult.find_by(user_id: source_user.id).present?).to eq false
+          end
+
+          it "user's balance shouldn't be changed" do
+            expect(source_user.balance.amount).to eq user_amount
+          end
+
+          it "target's balance shouldn't be changed" do
+            expect(target_user.balance.amount).to eq target_user_amount
+          end
+        end
+      end
+    end
+
+    describe ".reject!" do
+      subject { remit_request.reject! }
+      let (:request_amount) { 5000 }
+      let (:user_amount) { 10000 }
+
+      before { subject }
+
+      it "remit_request should be destroyed" do
+        expect(RemitRequest.find_by_id(remit_request.id).present?).to eq false
+      end
+
+      it "remit_request_result should be created" do
+        result = RemitRequestResult.find_by(user_id: source_user.id)
+        expect(result.present?).to eq true
+        expect(result.amount).to eq request_amount
+        expect(result.user).to eq source_user
+        expect(result.target).to eq target_user
+        expect(result.result).to eq RemitRequestResult::RESULT_REJECTED
+      end
+    end
+
+    describe ".cancel!" do
+      subject { remit_request.cancel! }
+      let (:request_amount) { 5000 }
+      let (:user_amount) { 10000 }
+
+      before { subject }
+
+      it "remit_request should be destroyed" do
+        expect(RemitRequest.find_by_id(remit_request.id).present?).to eq false
+      end
+
+      it "remit_request_result should be created" do
+        result = RemitRequestResult.find_by(user_id: source_user.id)
+        expect(result.present?).to eq true
+        expect(result.amount).to eq request_amount
+        expect(result.user).to eq source_user
+        expect(result.target).to eq target_user
+        expect(result.result).to eq RemitRequestResult::RESULT_CANCELED
       end
     end
   end

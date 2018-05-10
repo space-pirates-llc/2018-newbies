@@ -17,4 +17,11 @@ class RemitRequestResult < ApplicationRecord
   scope :accepted, -> { where(result: RESULT_ACCEPTED) }
   scope :rejected, -> { where(result: RESULT_REJECTED) }
   scope :canceled, -> { where(result: RESULT_CANCELED) }
+
+  def self.create_from_remit_request!(remit_request, result)
+    create!(user: remit_request.user,
+            target: remit_request.target,
+            amount: remit_request.amount,
+            result: result)
+  end
 end

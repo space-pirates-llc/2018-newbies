@@ -29,4 +29,33 @@ class RemitRequest < ApplicationRecord
   def canceled?(at = Time.current)
     canceled_at && canceled_at <= at
   end
+
+  def accept!
+    ActiveRecord::Base.transaction do
+      user.balance.lock!
+
+      # TODO: Create custom error
+      raise StandardError unless user.balance.can_withdraw?(amount)
+
+      user.balance.withdraw!(amount)
+      target.balance.deposit!(amount)
+
+      RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_ACCEPTED)
+      destroy!
+
+      user.balance.save!
+    end
+  end
+
+  def reject!
+    ActiveRecord::Base.transaction do
+      RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_REJECTED)
+      destroy!
+    end
+  end
+
+  def cancel!
+      RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_CANCELED)
+      destroy!
+  end
 end
