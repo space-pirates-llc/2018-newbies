@@ -8,8 +8,8 @@ class Api::ChargesController < Api::ApplicationController
   end
 
   def create
-    @charge = current_user.charges.create!(amount: params[:amount])
     Balance.transaction do
+      @charge = current_user.charges.create!(amount: params[:amount])
       current_user.balance.lock!
       current_user.balance.amount += params[:amount]
       current_user.balance.save!
