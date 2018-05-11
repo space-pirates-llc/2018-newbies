@@ -38,7 +38,7 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
       end
 
       context 'some users' do
-        let(:target2) { create(:user)}
+        let(:target2) { create(:user) }
         let(:emails) { [target.email, target2.email] }
         it { is_expected.to have_http_status(:created) }
         it { expect { subject }.to change(RemitRequest, :count).by(2) }
