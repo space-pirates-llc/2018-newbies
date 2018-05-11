@@ -12,7 +12,7 @@ class Api::RemitRequestsController < Api::ApplicationController
       user = User.find_by(email: email)
       next unless user
 
-      RemitRequest.create!(user: current_user, target: user, amount: params[:amount])
+      RemitRequest.create!(user: current_user, requested_user: user, amount: params[:amount])
     end
 
     render json: {}, status: :created
