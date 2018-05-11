@@ -9,8 +9,9 @@ class Api::ChargesController < Api::ApplicationController
 
   def create
     @charge = current_user.charges.create!(amount: params[:amount])
+    current_user.lock!
     current_user.balance.amount += params[:amount]
-    current_user.balance.update(amount: current_user.balance.amount)
+    current_user.balance.save
     render json: @charge, status: :created
   rescue ActiveRecord::RecordInvalid => e
     record_invalid(e)
