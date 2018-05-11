@@ -17,20 +17,20 @@ class RemitRequest < ApplicationRecord
   scope :canceled, ->(at = Time.current) { where(RemitRequest.arel_table[:canceled_at].lteq(at)) }
   scope :not_canceled, ->(at = Time.current) { where(canceled_at: nil).or(where(RemitRequest.arel_table[:canceled_at].gt(at))) }
 
-  def outstanding?(at = Time.current)
-    !accepted?(at) && !rejected?(at) && !canceled?(at)
+  def is_outstanding?(at = Time.current)
+    outstanding? && created_at <= at
   end
 
-  def accepted?(at = Time.current)
-    accepted_at && accepted_at <= at
+  def is_accepted?(at = Time.current)
+    accepted? && updated_at <= at
   end
 
-  def rejected?(at = Time.current)
-    rejected_at && rejected_at <= at
+  def is_rejected?(at = Time.current)
+    rejected? && updated_at <= at
   end
 
-  def canceled?(at = Time.current)
-    canceled_at && canceled_at <= at
+  def is_canceled?(at = Time.current)
+    canceled? && updated_at <= at
   end
 
   private
