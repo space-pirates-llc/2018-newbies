@@ -15,16 +15,16 @@ RSpec.describe SessionsController, type: :controller do
     context 'with valid params' do
       context 'correct password' do
         context 'activated user' do
-          let(:user) { create(:user, :with_activated) }
+          let(:user) { create(:user) }
           let(:user_params) { user.slice(:email, :password) }
 
           it 'redirect correct path' do
-            is_expected.to redirect_to(dashboard_path) 
+            is_expected.to redirect_to(root_path) 
           end
         end
 
         context 'unactivated user' do 
-          let(:user) { create(:user, :not_activated) }
+          let(:user) { create(:user) }
           let(:user_params) { user.slice(:email, :password) }
 
           it 'inactivated user with correct password should be redirect to the root' do

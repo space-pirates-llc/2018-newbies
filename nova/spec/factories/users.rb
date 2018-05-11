@@ -4,7 +4,11 @@ FactoryBot.define do
   factory :user do
     nickname { FFaker::Internet.user_name }
     email { FFaker::Internet.email }
-    password { FFaker::Internet.password }
+    password { 'password123' }
+  end
+
+  trait :with_password_confirmation do
+    password_confirmation { 'password123' }
   end
 
   trait :with_request_password_reset do
@@ -16,10 +20,4 @@ FactoryBot.define do
     activated true
     activated_at { Time.now }
   end
-
-  trait :not_activated do
-    activated false
-    activated_at { Time.now }
-  end
-
 end
