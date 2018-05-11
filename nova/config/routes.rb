@@ -3,8 +3,8 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     resource :user, only: %i[show update]
-    resources :user_emails, only: %i[create]
     resource :credit_card, only: %i[show create destroy]
+    resources :user_emails, only: %i[create]
     resources :charges, only: %i[index create]
     resources :remit_requests, only: %i[index create] do
       member do
