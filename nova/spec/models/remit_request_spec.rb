@@ -28,7 +28,7 @@ RSpec.describe RemitRequest, type: :model do
     end
 
     # TODO: service/remit_service.rb のテストに移す
-    describe '.accept!' do
+    describe '#accept!' do
       subject(:accept_subject) { remit_request.accept! }
       context 'with enough amount' do
         let (:remit_amount) { 5000 }
@@ -95,7 +95,7 @@ RSpec.describe RemitRequest, type: :model do
       end
     end
 
-    describe '.reject!' do
+    describe '#reject!' do
       subject { remit_request.reject! }
       let (:remit_amount) { 5000 }
       let (:requested_user_amount) { 10_000 }
@@ -116,7 +116,7 @@ RSpec.describe RemitRequest, type: :model do
       end
     end
 
-    describe '.cancel!' do
+    describe '#cancel!' do
       subject { remit_request.cancel! }
       let (:remit_amount) { 5000 }
       let (:requested_user_amount) { 10_000 }
