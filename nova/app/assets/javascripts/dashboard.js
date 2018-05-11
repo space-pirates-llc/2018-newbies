@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     el: '#dashboard',
     data: {
       currentTab: 'remits',
+      currentRimitTab: 'sent',
       amount: 0,
       charge_amount: 0,
       charges: [],
@@ -98,13 +99,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
       api.get('/api/remit_requests', { status: 'outstanding' }).
         then(function(json) {
-          self.recvRemits = json;
+          self.sentRemits = json.sent;
+          self.recvRemits = json.request;
         });
 
       setInterval(function() {
         api.get('/api/remit_requests', { status: 'outstanding' }).
           then(function(json) {
-            self.recvRemits = json;
+            self.sentRemits = json.sent;
+            self.recvRemits = json.request;
           });
       }, 5000);
     },
