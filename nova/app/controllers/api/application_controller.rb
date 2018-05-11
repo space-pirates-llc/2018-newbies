@@ -5,6 +5,7 @@ class Api::ApplicationController < ActionController::API
 
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :required_login!
 
@@ -18,6 +19,10 @@ class Api::ApplicationController < ActionController::API
     errors = exception.record.errors.full_messages
 
     render json: { errors: errors }, status: :unprocessable_entity
+  end
+
+  def record_not_found(exception)
+    render json: { errors: [exception.message] }, status: :not_found
   end
 
   def parameter_missing(exception)
