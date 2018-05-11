@@ -13,7 +13,7 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     context 'with logged in' do
-      before { login!(user) }
+      before { sign_in(user) }
 
       it { is_expected.to have_http_status(:ok) }
     end
@@ -28,7 +28,7 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     context 'with logged in' do
-      before { login!(user) }
+      before { sign_in(user) }
 
       context 'with invalid params' do
         let(:user_params) { {} }

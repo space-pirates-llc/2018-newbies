@@ -9,11 +9,11 @@ RSpec.describe DashboardController, type: :controller do
     subject { get :show }
 
     context 'without logged in' do
-      it { is_expected.to redirect_to(login_path) }
+      it { is_expected.to redirect_to(new_user_session_path) }
     end
 
     context 'with logged in' do
-      before { login!(user) }
+      before { sign_in(user) }
 
       it { is_expected.to have_http_status(:ok) }
     end

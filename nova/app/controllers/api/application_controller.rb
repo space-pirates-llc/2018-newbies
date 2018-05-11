@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::ApplicationController < ActionController::API
-  include Loginable
   include AbstractController::Translation
 
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
@@ -12,7 +11,7 @@ class Api::ApplicationController < ActionController::API
   protected
 
   def required_login!
-    render(json: { errors: [t('api.application.errors.unauthorized')] }, status: :unauthorized) unless logged_in?
+    render(json: { errors: [t('api.application.errors.unauthorized')] }, status: :unauthorized) unless user_signed_in?
   end
 
   def record_invalid(exception)
