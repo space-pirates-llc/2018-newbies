@@ -118,11 +118,15 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     methods: {
       show_charge_modal: function(amount) {
-        this.charge_amount = amount;
-        this.isActiveChargeConfirmDialog = true;
+        if(hasCreditCard) {
+          this.charge_amount = amount;
+          this.isActiveChargeConfirmDialog = true;
+        }
       },
       show_card_delete_modal: function(amount) {
-        this.isActiveDeleteCreditCard = true;
+        if(hasCreditCard) {
+          this.isActiveDeleteCreditCard = true;
+        }
       },
       charge: function(amount, event) {
         if(event) { event.preventDefault(); }
