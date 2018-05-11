@@ -29,7 +29,7 @@ class Charge < ApplicationRecord
       customer: user.stripe_id,
       capture: false
     )
-    self.ch_id = res.id
+    self.stripe_id = res.id
   rescue Stripe::StripeError => e
     errors.add(:user, e.code.to_s.to_sym)
     throw :abort
