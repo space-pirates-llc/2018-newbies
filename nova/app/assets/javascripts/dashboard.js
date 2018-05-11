@@ -4,10 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  var strDateTime = '2018-05-11T01:57:48.000Z';
-  var myDate = new Date(strDateTime);
-  alert(myDate.toLocaleString());
-
   var creditCardForm = document.getElementById('credit-card');
   var stripe = Stripe(creditCardForm.getAttribute('api-key'));
   var elements = stripe.elements();
