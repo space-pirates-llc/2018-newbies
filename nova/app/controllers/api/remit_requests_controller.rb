@@ -24,23 +24,19 @@ class Api::RemitRequestsController < Api::ApplicationController
   def accept
     remit_request.accept!
 
-    # TODO: Error handling
-
     render json: {}, status: :ok
+  rescue RemitService::InsufficientBalanceError
+    render json: { errors: ["Insufficient balance"] }, status: :bad_request
   end
 
   def reject
     remit_request.reject!
 
-    # TODO: Error handling
-    #
     render json: {}, status: :ok
   end
 
   def cancel
     remit_request.cancel!
-
-    # TODO: Error handling
 
     render json: {}, status: :ok
   end
