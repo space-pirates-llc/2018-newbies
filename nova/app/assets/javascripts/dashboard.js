@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
+  var strDateTime = '2018-05-11T01:57:48.000Z';
+  var myDate = new Date(strDateTime);
+  alert(myDate.toLocaleString());
+
   var creditCardForm = document.getElementById('credit-card');
   var stripe = Stripe(creditCardForm.getAttribute('api-key'));
   var elements = stripe.elements();
@@ -88,6 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
       api.get('/api/charges').then(function(json) {
         self.amount = json.amount;
         self.charges = json.charges;
+        for (var i = 0; i < self.charges.length; i++){
+          var strDateTime = self.charges[i]['created_at'];
+          var myDate = new Date(strDateTime);
+          self.charges[i]['created_at'] = myDate.toLocaleString();
+        }
       });
 
       api.get('/api/remit_requests').
@@ -159,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       sendRemitRequest: function(event) {
         if(event) { event.preventDefault(); }
-
         var self = this;
         api.post('/api/remit_requests', this.newRemitRequest).
           then(function() {
