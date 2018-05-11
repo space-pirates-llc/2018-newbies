@@ -11,7 +11,7 @@ class Api::ChargesController < Api::ApplicationController
     Balance.transaction do
       @charge = current_user.charges.create!(amount: params[:amount])
       current_user.balance.lock!
-      current_user.balance.amount += params[:amount]
+      current_user.balance.amount += params[:amount].to_i
       current_user.balance.save!
     end
     render json: @charge, status: :created
