@@ -13,7 +13,7 @@ class Api::RemitRequestsController < Api::ApplicationController
   def create
     params[:emails].each do |email|
       requested_user = User.find_by(email: email)
-      next unless user
+      next unless requested_user
 
       RemitRequest.create!(user: current_user, requested_user: requested_user, amount: params[:amount])
     end
