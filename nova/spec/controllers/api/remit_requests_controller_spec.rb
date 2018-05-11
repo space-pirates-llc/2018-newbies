@@ -45,7 +45,7 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
     context 'with logged in' do
       before do
         sign_in(user)
-        requested_user.balance.update_attribute(:amount, 1000000)
+        requested_user.balance.update_attribute(:amount, 1_000_000)
       end
 
       it { is_expected.to have_http_status(:ok) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe RemitRequestResult, type: :model do
@@ -5,32 +7,32 @@ RSpec.describe RemitRequestResult, type: :model do
 
   it { is_expected.to be_valid }
 
-  describe "validation" do
-    describe "amount" do
-      context "when amout value is negative" do
+  describe 'validation' do
+    describe 'amount' do
+      context 'when amout value is negative' do
         subject(:remit_request_result) { build_stubbed(:remit_request_result, amount: -1) }
 
         it { is_expected.not_to be_valid }
       end
 
-      context "when amout is too big" do
+      context 'when amout is too big' do
         subject(:remit_request_result) { build_stubbed(:remit_request_result, amount: 10**9) }
 
         it { is_expected.not_to be_valid }
       end
 
-      context "when amount is empty" do
+      context 'when amount is empty' do
         subject(:remit_request_result) { build_stubbed(:remit_request_result, amount: nil) }
 
         it { is_expected.not_to be_valid }
       end
     end
 
-    describe "result" do
-      context "when result is empty" do
-          subject(:remit_request_result) { build_stubbed(:remit_request_result, result: ' ') }
+    describe 'result' do
+      context 'when result is empty' do
+        subject(:remit_request_result) { build_stubbed(:remit_request_result, result: ' ') }
 
-          it { is_expected.not_to be_valid }
+        it { is_expected.not_to be_valid }
       end
 
       valid_values = %w[accepted rejected canceled]
@@ -63,7 +65,7 @@ RSpec.describe RemitRequestResult, type: :model do
     end
   end
 
-  describe "scope" do
+  describe 'scope' do
     before do
       5.times do
         create(:remit_request_result, :accepted)
@@ -75,10 +77,10 @@ RSpec.describe RemitRequestResult, type: :model do
     %i[accepted rejected canceled].each do |result|
       context "with #{result}" do
         subject do
-          RemitRequestResult.send("#{result}").map(&:result)
+          RemitRequestResult.send(result.to_s).map(&:result)
         end
 
-        it { is_expected.to all(eq "#{result}") }
+        it { is_expected.to all(eq result.to_s) }
       end
     end
   end

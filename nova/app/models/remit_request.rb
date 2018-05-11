@@ -42,7 +42,7 @@ class RemitRequest < ApplicationRecord
   end
 
   def cancel!
-      RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_CANCELED)
-      destroy!
+    RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_CANCELED)
+    destroy!
   end
 end

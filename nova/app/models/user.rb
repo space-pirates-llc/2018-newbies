@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+    :recoverable, :rememberable, :trackable, :validatable
   has_many :received_remit_requests, class_name: 'RemitRequest', foreign_key: :requested_user_id, dependent: :destroy
   has_many :sent_remit_requests, class_name: 'RemitRequest', dependent: :destroy
   has_many :received_remit_request_results, class_name: 'RemitRequestResult', foreign_key: :requested_user_id
@@ -28,7 +28,6 @@ class User < ApplicationRecord
   protected
 
   def create_stripe_customer
-
     return if stripe_id?
 
     customer = Stripe::Customer.create(

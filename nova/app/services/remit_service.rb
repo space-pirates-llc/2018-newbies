@@ -4,7 +4,6 @@ class RemitService
   class InsufficientBalanceError < StandardError; end
 
   class << self
-
     def execute!(remit_request)
       ActiveRecord::Base.transaction do
         user_balance = remit_request.user.balance
