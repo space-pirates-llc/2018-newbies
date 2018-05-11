@@ -18,10 +18,10 @@
     .column.is-8
       .heading Charge
       .buttons
-        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(100)" ) 100円
-        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(500)") 500円
-        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(1000)") 1,000円
-        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(5000)") 5,000円
+        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(100)" v-if="amount+100<100000") 100円
+        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(500)" v-if="amount+500<100000") 500円
+        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(1000)" v-if="amount+1000<100000") 1,000円
+        a.button(:disabled="!hasCreditCard" @click="show_charge_modal(5000)"v-if="amount+5000<100000") 5,000円
 
   .columns.
     .column.is-12
