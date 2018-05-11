@@ -16,7 +16,7 @@ RSpec.describe Balance, type: :model do
 
     describe 'amount' do
       it { is_expected.to validate_presence_of(:amount) }
-      it { is_expected.to validate_numericality_of(:amount).is_greater_than(0).is_less_than(100000) }
+      it { is_expected.to validate_numericality_of(:amount).is_greater_than(0).is_less_than_or_equal_to(100000) }
     end
   end
 end
