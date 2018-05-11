@@ -15,11 +15,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: change directory to nova
-          command: |
-            cd nova
-
       # Download and cache dependencies
       - restore_cache:
           keys:
