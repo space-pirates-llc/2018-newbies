@@ -216,6 +216,14 @@
     .modal-card
       section.modal-card-body
         .heading 本当にクレジットカードを削除してよろしいですか？
-        .button.button.is_primary(@click="removeCreditCard($event)" @click.prevent= "isActiveDeleteCreditCard = false ") はい
-        .button.button.is_primary(@click.prevent = "isActiveDeleteCreditCard = false")いいえ
+
+        .columns
+          .column.is-2.is-offset-4
+            .field
+              .control
+                button.button.is-danger(@click="removeCreditCard($event)" @click.prevent= "isActiveDeleteCreditCard = false ") はい
+          .column.is-2
+            .field
+              .control
+                button.button(@click.prevent = "isActiveDeleteCreditCard = false")いいえ
     button.modal-close.is-large(@click.prevent= "isActiveDeleteCreditCard = false")
