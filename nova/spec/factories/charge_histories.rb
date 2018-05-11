@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :charge_history do
     amount 100
-    ch_id "ch_123abc"
+    stripe_id "ch_123abc"
     result "success"
     association :user, factory: :user
   end
