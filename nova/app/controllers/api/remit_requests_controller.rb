@@ -53,7 +53,7 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def cancel
-    @remit_request.cancel!
+    @remit_request.canceled!
 
     render json: {}, status: :ok
   end
