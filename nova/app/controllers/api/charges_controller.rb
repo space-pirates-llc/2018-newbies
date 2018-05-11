@@ -22,7 +22,6 @@ class Api::ChargesController < Api::ApplicationController
 
   def create
     @charge = current_user.charges.create!(amount: params[:amount])
-
     render json: @charge, status: :created
   end
 end

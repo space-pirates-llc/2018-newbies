@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 2018_05_11_013408) do
     t.integer "amount", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_id", null: false
+    t.index ["stripe_id"], name: "index_charges_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_charges_on_user_id"
   end
 
