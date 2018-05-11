@@ -11,14 +11,14 @@ class RemitService
         requested_user_balance = remit_request.requested_user.balance
 
         # balanceの整合性を担保するため、悲観的ロックをかける
-        aquire_lock!(user_balance, requested_user_balance)
+        aquire_lock!([user_balance, requested_user_balance])
 
         raise InsufficientBalanceError unless can_remit?(requested_user_balance, remit_request.amount)
 
         transfer_balance!(user_balance, requested_user_balance, remit_request.amount)
         finalize_remit_request!(remit_request)
 
-        release_lock!(user_balance, requested_user_balance)
+        release_lock!([user_balance, requested_user_balance])
       end
     end
 
@@ -36,14 +36,16 @@ class RemitService
       remit_request.destroy!
     end
 
-    def aquire_lock!(user_balance, requested_user_balance)
-      user_balance.lock!
-      requested_user_balance.lock!
+    # balanceの整合性を担保するため悲観的行ロックを獲得する
+    # デッドロックを防ぐため、id昇順にロックを獲得していく
+    def aquire_lock!(balances)
+      balances.sort_by(&:id).each(&:lock!)
     end
 
-    def release_lock!(user_balance, requested_user_balance)
-      user_balance.save!
-      requested_user_balance.save!
+    # balanceの整合性を担保するため悲観的行ロックを開放する
+    # デッドロックを防ぐため、aquire_lock!とは逆順で行ロックを開放する
+    def release_lock!(balances)
+      balances.sort_by(&:id).reverse.each(&:save!)
     end
   end
 end
