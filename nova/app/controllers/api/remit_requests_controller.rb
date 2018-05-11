@@ -29,7 +29,7 @@ class Api::RemitRequestsController < Api::ApplicationController
       sender =  @remit_request.target
       receiver = @remit_request.user
       #ロックする順番をidの小さい順にすることでデットロックを回避する
-      if sender.id < receiver.id
+      if sender.balance.id < receiver.balance.id
         sender.balance.lock!
         receiver.balance.lock!
       else
