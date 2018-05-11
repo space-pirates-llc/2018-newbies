@@ -7,6 +7,7 @@ class RemitRequest < ApplicationRecord
   validates :amount, numericality: { greater_than: 0, only_integer: true }, presence: true
   validate :validate_equal_user_and_target
   validate :validate_nonexist_target
+  enum status: { outstanding: 0, accepted: 1, rejected: 2, canceled: 3 }
 
   scope :outstanding, ->(at = Time.current) { not_accepted(at).not_rejected(at).not_canceled(at) }
   scope :accepted, ->(at = Time.current) { where(RemitRequest.arel_table[:accepted_at].lteq(at)) }
