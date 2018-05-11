@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_10_033038) do
+ActiveRecord::Schema.define(version: 2018_05_11_013408) do
 
   create_table "balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -22,11 +22,12 @@ ActiveRecord::Schema.define(version: 2018_05_10_033038) do
 
   create_table "charge_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "amount", null: false
-    t.string "ch_id", null: false
+    t.string "stripe_id", null: false
     t.string "result", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["stripe_id"], name: "index_charge_histories_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_charge_histories_on_user_id"
   end
 
