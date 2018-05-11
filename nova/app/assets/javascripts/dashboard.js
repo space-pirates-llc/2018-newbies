@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isActiveChargeConfirmDialog: false,
       isActiveDeleteCreditCard: false,
       target: "",
+      register_notification: "",
       creditCard: {
         brand: "",
         last4: "",
@@ -219,6 +220,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=nickname', { user: this.user }).
           then(function(json) {
+            if(json.errors){
+                self.register_notification = "更新に失敗しました"
+            }else{
+                self.register_notification = "更新しました"
+            }
             self.user = json;
           });
       },
@@ -228,6 +234,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=email', { user: this.user }).
           then(function(json) {
+            if(json.errors){
+              self.register_notification = "更新に失敗しました"
+            }else{
+              self.register_notification = "更新しました"
+            }
             self.user = json;
           });
       },
@@ -237,6 +248,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=password', { user: this.user }).
           then(function(json) {
+            if(json.errors){
+                self.register_notification = "更新に失敗しました"
+            }else{
+                self.register_notification = "更新しました"
+            }
             self.user = json;
           });
       },
