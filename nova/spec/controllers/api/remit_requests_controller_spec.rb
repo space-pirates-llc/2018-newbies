@@ -22,7 +22,7 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, params: { emails: emails, amount: 3000 } }
+    subject { post :create, params: { emails: emails, amount: '3000' } }
     let(:emails) { [target.email] }
 
     context 'without logged in' do
