@@ -22,7 +22,8 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, params: { emails: [target.email], amount: 3000 } }
+    subject { post :create, params: { emails: emails, amount: '3000' } }
+    let(:emails) { [target.email] }
 
     context 'without logged in' do
       it { is_expected.to have_http_status(:unauthorized) }
@@ -31,8 +32,17 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
     context 'with logged in' do
       before { login!(user) }
 
-      it { is_expected.to have_http_status(:created) }
-      it { expect { subject }.to change(RemitRequest, :count).by(1) }
+      context 'one user' do
+        it { is_expected.to have_http_status(:created) }
+        it { expect { subject }.to change(RemitRequest, :count).by(1) }
+      end
+
+      context 'some users' do
+        let(:target2) { create(:user) }
+        let(:emails) { [target.email, target2.email] }
+        it { is_expected.to have_http_status(:created) }
+        it { expect { subject }.to change(RemitRequest, :count).by(2) }
+      end
     end
   end
 
