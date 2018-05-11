@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :password_resets, only: %i[new create edit update]
+
   get '/dashboard', to: 'dashboard#show'
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'

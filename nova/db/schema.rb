@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2018_05_11_022733) do
     t.string "email", null: false
     t.string "password_digest", null: false
     t.string "stripe_id"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
     t.boolean "staff", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

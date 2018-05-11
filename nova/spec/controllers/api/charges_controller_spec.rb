@@ -20,7 +20,7 @@ RSpec.describe Api::ChargesController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, params: { amount: 3000 } }
+    subject { post :create, params: { amount: '3000' } }
 
     context 'without logged in' do
       it { is_expected.to have_http_status(:unauthorized) }

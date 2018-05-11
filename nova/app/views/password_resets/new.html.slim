@@ -1,0 +1,12 @@
+h1 パスワードの再発行を行います
+
+br
+
+= form_for @user, url: password_resets_path do |f|
+  .field
+    = f.label :email
+    .control
+      = f.email_field :email, class: 'input'
+  .field
+    .control.has-text-right
+      = f.submit t('.submit'), class: 'button is-primary'
