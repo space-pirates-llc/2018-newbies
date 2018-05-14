@@ -7,5 +7,5 @@ if [ -f /var/nova/current/tmp/pids/puma.pid ]; then
 fi
 
 if [ -f /var/nova/current/tmp/pids/sidekiq.pid ]; then
-  su -l ubuntu -c 'kill -s TERM `cat /var/nova/current/tmp/pids/sidekiq.pid`'
+  bundle exec sidekiqctl stop /var/nova/current/tmp/pids/sidekiq.pid 180
 fi
