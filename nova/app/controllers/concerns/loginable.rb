@@ -29,6 +29,7 @@ module Loginable
     if user
       cookies.permanent[COOKIE_NAME] = {
         value: user.id.to_s,
+        httponly: true
       }
     else
       cookies.delete(COOKIE_NAME)
