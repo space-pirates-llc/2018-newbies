@@ -7,10 +7,10 @@ class Api::ChargesController < Api::ApplicationController
       charge_total += charge.amount
     end
     remit_total = 0
-    current_user.received_remit_requests.where.not(accepted_at: nil).each do |remit|
+    current_user.received_remit_request_results.accepted.each do |remit|
       remit_total += remit.amount
     end
-    current_user.sent_remit_requests.where.not(accepted_at: nil).each do |remit|
+    current_user.sent_remit_request_results.accepted.each do |remit|
       remit_total -= remit.amount
     end
     balance_total = charge_total - remit_total
