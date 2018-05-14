@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Balance, type: :model do
   describe 'factory validation' do
-    subject(:balance) { create(:user) }
+    subject(:user) { create(:user) }
 
     it { is_expected.to be_valid }
   end
