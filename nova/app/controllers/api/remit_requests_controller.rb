@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Api::RemitRequestsController < Api::ApplicationController
-  before_action :set_remit_request, only: [:accept, :reject, :cancel]
+  before_action :set_remit_request, only: %i[accept reject cancel]
 
   def index
     @sent_remit_requests = current_user.sent_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
     @remit_requests = current_user.received_remit_requests.send(params[:status] || 'outstanding').order(id: :desc).limit(50)
 
-    render json: {sent: @sent_remit_requests.as_json(include: :user), request: @remit_requests.as_json(include: :user)}
+    render json: { sent: @sent_remit_requests.as_json(include: :user), request: @remit_requests.as_json(include: :user) }
   end
 
   def create
@@ -22,14 +22,12 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def accept
-    @remit_request.accepted!
-
-    # 残高の更新
-    #悲観的ロック
     Balance.transaction do
-      sender =  @remit_request.target
+      sender = @remit_request.target
       receiver = @remit_request.user
-      #ロックする順番をidの小さい順にすることでデットロックを回避する
+
+      # 悲観的ロックを行う
+      # ロックする順番をidの小さい順にすることでデットロックを回避する
       if sender.balance.id < receiver.balance.id
         sender.balance.lock!
         receiver.balance.lock!
@@ -37,10 +35,17 @@ class Api::RemitRequestsController < Api::ApplicationController
         receiver.balance.lock!
         sender.balance.lock!
       end
+
+      # 残高の更新
       sender.balance.amount -= @remit_request.amount
       receiver.balance.amount += @remit_request.amount
+
       sender.balance.save!
       receiver.balance.save!
+
+      # トランザクション処理の最後に
+      # 当該 RemitRequest のステータスを変更する
+      @remit_request.accepted!
     end
 
     render json: {}, status: :ok
@@ -59,7 +64,8 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   private
-    def set_remit_request
-      @remit_request = RemitRequest.find(params[:id])
-    end
+
+  def set_remit_request
+    @remit_request = RemitRequest.find(params[:id])
+  end
 end
