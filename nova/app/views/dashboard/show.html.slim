@@ -16,7 +16,7 @@
       .heading Amount
       .title= '{{amount}}円'
     .column.is-8(v-if="amount < 100000")
-      .heading.if Charge
+      .heading Charge
       .buttons
         a.button(:disabled="!hasCreditCard" @click="show_charge_modal(100)" v-if="amount+100 <= 100000") 100円
         a.button(:disabled="!hasCreditCard" @click="show_charge_modal(500)" v-if="amount+500 <= 100000") 500円
