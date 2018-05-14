@@ -9,21 +9,9 @@ class RemitRequest < ApplicationRecord
   validate :validate_nonexist_target
   enum status: { outstanding: 0, accepted: 1, rejected: 2, canceled: 3 }
 
-  def is_outstanding?(at = Time.current)
-    outstanding? && created_at <= at
-  end
-
-  def is_accepted?(at = Time.current)
-    accepted? && updated_at <= at
-  end
-
-  def is_rejected?(at = Time.current)
-    rejected? && updated_at <= at
-  end
-
-  def is_canceled?(at = Time.current)
-    canceled? && updated_at <= at
-  end
+  # remit_requestモデルが作成された時の状態は outstanding
+  # そこから１方向に変化する。(accepted, rejected, canceledのどれか)
+  # 2度以上状態が変化しない。
 
   private
 
