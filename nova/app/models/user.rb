@@ -5,7 +5,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable
+         :confirmable, :async
   has_many :received_remit_requests, class_name: 'RemitRequest', foreign_key: :target_id, dependent: :destroy
   has_many :sent_remit_requests, class_name: 'RemitRequest', dependent: :destroy
   has_many :charges, dependent: :destroy
@@ -34,7 +34,6 @@ class User < ApplicationRecord
     )
     update(stripe_id: customer.id)
   rescue Stripe::StripeError => e
-    pry.inspect
     errors.add(:stripe, e.code.to_s.to_sym)
     throw :abort
   end
