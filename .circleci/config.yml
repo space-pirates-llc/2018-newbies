@@ -10,15 +10,12 @@ jobs:
 
        - image: circleci/mysql:5.7
 
+       - image: redis
+
     working_directory: ~/repo
 
     steps:
       - checkout
-
-      - run:
-          name: change directory to nova
-          command: |
-            cd nova
 
       # Download and cache dependencies
       - restore_cache:
@@ -39,9 +36,11 @@ jobs:
           key: v1-dependencies-{{ checksum "nova/Gemfile.lock" }}
 
       - run:
-          name: Wait for DB
+          name: Wait for DB and redis
           # preinstalled in circleci/* docker image
-          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+          command: |
+            dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+            dockerize -wait tcp://127.0.0.1:6379 -timeout 120s
 
       # Database setup
       - run: cd nova && bundle exec rake db:create

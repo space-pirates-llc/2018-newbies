@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      remit_request_result: "RemitRequestResult"
+    attributes:
+      remit_request_result:
+        id: "ID"
+        user_id: "UserId"
+        requested_user_id: "TargetId"
+        amount: "Amount"

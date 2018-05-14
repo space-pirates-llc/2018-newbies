@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         post :cancel
       end
     end
+    resources :remit_request_results, only: %i[index]
   end
   get '/dashboard', to: 'dashboard#show'
   root to: 'pages#root'
