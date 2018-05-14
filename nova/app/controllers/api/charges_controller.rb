@@ -8,13 +8,18 @@ class Api::ChargesController < Api::ApplicationController
   end
 
   def create
-    Balance.transaction do
-      @charge = current_user.charges.create!(amount: params[:amount])
-      current_user.balance.lock!
-      current_user.balance.amount += params[:amount].to_i
-      current_user.balance.save!
+    if current_user.balance.amount + params[:amount] > Balance::MAX_BALANCE_AMOUNT
+      render json: current_user.charges.new(amount: params[:amount]), status: :unprocessable_entity
+    else
+      Balance.transaction do
+        @charge = current_user.charges.create!(amount: params[:amount])
+        current_user.balance.lock!
+        current_user.balance.amount += params[:amount].to_i
+        current_user.balance.save!
+      end
+
+      render json: @charge, status: :created
     end
-    render json: @charge, status: :created
   rescue ActiveRecord::RecordInvalid => e
     record_invalid(e)
   end
