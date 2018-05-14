@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_10_015320) do
+ActiveRecord::Schema.define(version: 2018_05_11_022733) do
 
   create_table "balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -44,11 +44,9 @@ ActiveRecord::Schema.define(version: 2018_05_10_015320) do
     t.bigint "user_id", null: false
     t.bigint "target_id", null: false
     t.integer "amount", null: false
-    t.datetime "accepted_at"
-    t.datetime "rejected_at"
-    t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["target_id"], name: "index_remit_requests_on_target_id"
     t.index ["user_id"], name: "index_remit_requests_on_user_id"
   end

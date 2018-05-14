@@ -22,7 +22,7 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def accept
-    @remit_request.update!(accepted_at: Time.now)
+    @remit_request.accepted!
 
     # 残高の更新
     #悲観的ロック
@@ -47,13 +47,13 @@ class Api::RemitRequestsController < Api::ApplicationController
   end
 
   def reject
-    @remit_request.update!(rejected_at: Time.now)
+    @remit_request.rejected!
 
     render json: {}, status: :ok
   end
 
   def cancel
-    @remit_request.update!(canceled_at: Time.now)
+    @remit_request.canceled!
 
     render json: {}, status: :ok
   end
