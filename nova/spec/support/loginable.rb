@@ -10,11 +10,14 @@ module RSpec::LoginHelper
   end
 
   def current_user
-    User.find_by(id: cookies[Loginable::COOKIE_NAME])
+    User.find_by(id: cookies.encrypted.signed[Loginable::COOKIE_NAME])
   end
 
   def current_user=(user)
-    cookies[Loginable::COOKIE_NAME] = user&.id
+    cookies.encrypted.signed[Loginable::COOKIE_NAME] = {
+      value: user&.id&.to_s,
+      httponly: true
+    }
   end
 end
 

@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
 
     if @user&.authenticate(user_params[:password])
       self.current_user = @user
+
       redirect_to dashboard_path
     else
       # @user を初期化しつつ、 :email の値のみは保持して render :new する
