@@ -38,6 +38,8 @@ class User < ApplicationRecord
   end
 
   def create_balance
-    self.create_balance!
+    if !self.balance
+      self.create_balance!
+    end
   end
 end
