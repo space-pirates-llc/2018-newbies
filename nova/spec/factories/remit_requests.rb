@@ -7,21 +7,19 @@ FactoryBot.define do
     amount 100
 
     trait :outstanding do
-      accepted_at nil
-      rejected_at nil
-      canceled_at nil
+      status :outstanding
     end
 
     trait :accepted do
-      accepted_at { Time.current }
+      status :accepted
     end
 
     trait :rejected do
-      rejected_at { Time.current }
+      status :rejected
     end
 
     trait :canceled do
-      canceled_at { Time.current }
+      status :canceled
     end
   end
 end
