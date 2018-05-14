@@ -28,6 +28,8 @@ class RemitService
       end
     end
 
+    private
+
     def can_remit?(requested_user_balance, amount)
       requested_user_balance.can_withdraw?(amount)
     end
