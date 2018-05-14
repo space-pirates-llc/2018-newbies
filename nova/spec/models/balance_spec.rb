@@ -10,13 +10,4 @@ RSpec.describe Balance, type: :model do
   describe 'Association' do
     it { is_expected.to belong_to(:user) }
   end
-
-  describe 'Validation' do
-    subject(:balance) { create(:user).balance }
-
-    describe 'amount' do
-      it { is_expected.to validate_presence_of(:amount) }
-      it { is_expected.to validate_numericality_of(:amount).is_greater_than(0).is_less_than_or_equal_to(100000) }
-    end
-  end
 end
