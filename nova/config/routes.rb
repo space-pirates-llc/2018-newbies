@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     get    '/users/confirmation', to: 'devise/confirmations#show',  as: 'user_confirmation'
   end
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   namespace :api, defaults: { format: 'json' } do
     resource :user, only: %i[show update]
     resource :credit_card, only: %i[show create]
