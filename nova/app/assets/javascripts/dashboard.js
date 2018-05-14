@@ -118,6 +118,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if(form){ creditCard.mount(form); }
     },
     methods: {
+      show_register_notification: function(json){
+        if(json.errors){
+          this.register_notification = "更新に失敗しました。"
+          this.register_error_messages += json.errors
+        }else{
+          this.register_notification = "更新しました。"
+        }
+      },
       show_charge_modal: function(amount) {
         if(hasCreditCard) {
           this.charge_amount = amount;
@@ -225,12 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=nickname', { user: this.user }).
           then(function(json) {
-            if(json.errors){
-                self.register_notification = "更新に失敗しました"
-                self.register_error_messages += json.errors
-            }else{
-                self.register_notification = "更新しました"
-            }
+            self.show_register_notification(json);
             self.user = json;
           });
       },
@@ -240,12 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=email', { user: this.user }).
           then(function(json) {
-            if(json.errors){
-                self.register_notification = "更新に失敗しました"
-                self.register_error_messages += json.errors
-            }else{
-                self.register_notification = "更新しました"
-            }
+            self.show_register_notification(json);
             self.user = json;
           });
       },
@@ -255,12 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.put('/api/user?attribute=password', { user: this.user }).
           then(function(json) {
-            if(json.errors){
-                self.register_notification = "更新に失敗しました"
-                self.register_error_messages += json.errors
-            }else{
-                self.register_notification = "更新しました"
-            }
+            self.show_register_notification(json);
             self.user = json;
           });
       },
