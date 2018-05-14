@@ -6,8 +6,5 @@ FactoryBot.define do
     email { FFaker::Internet.email }
     password { 'password' }
     password_confirmation { 'password' }
-    after(:build) do |instance|
-      instance.balance ||= build(:balance, user: instance)
-    end
   end
 end

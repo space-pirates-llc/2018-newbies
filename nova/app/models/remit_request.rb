@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class RemitRequest < ApplicationRecord
+  MIN_REMIT_AMOUNT = 1
+  MAX_REMIT_AMOUNT = 100_000
+
   belongs_to :user
   belongs_to :target, class_name: 'User'
 
-  validates :amount, numericality: { greater_than: 0, only_integer: true }, presence: true
+  validates :amount, numericality: { greater_than_or_equal_to: MIN_REMIT_AMOUNT, less_than_or_equal_to: MAX_REMIT_AMOUNT, only_integer: true }, presence: true
   validate :validate_equal_user_and_target
   validate :validate_nonexist_target
   enum status: { outstanding: 0, accepted: 1, rejected: 2, canceled: 3 }

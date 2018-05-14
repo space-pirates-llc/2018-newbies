@@ -35,7 +35,7 @@ RSpec.describe RemitRequest, type: :model do
   describe 'Validations' do
     describe 'amount' do
       subject(:remit_request) { build(:remit_request) }
-      it { is_expected.to validate_numericality_of(:amount).is_greater_than(0).only_integer }
+      it { is_expected.to validate_numericality_of(:amount).is_greater_than_or_equal_to(1).is_less_than_or_equal_to(100_000).only_integer }
     end
   end
 end

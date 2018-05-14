@@ -10,7 +10,6 @@ class UsersController < ApplicationController
                         email: user_params[:email]&.downcase,
                         password: user_params[:password],
                         password_confirmation: user_params[:passoword_confirmation])
-    balance = Balance.create(user_id: @user.id)
 
     if @user.persisted?
       self.current_user = @user
