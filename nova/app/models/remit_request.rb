@@ -35,14 +35,27 @@ class RemitRequest < ApplicationRecord
   end
 
   def reject!
-    ActiveRecord::Base.transaction do
-      RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_REJECTED)
-      destroy!
-    end
+    finalize_with_lock!(RemitRequestResult::RESULT_REJECTED)
   end
 
-  def cancel!
-    RemitRequestResult.create_from_remit_request!(self, RemitRequestResult::RESULT_CANCELED)
+  def canceled!
+    finalize_with_lock!(RemitRequestResult::RESULT_CANCELED)
+  end
+
+  # RemitRequestをRemitRequestResultに移す
+  # 既にremit_requetに対してロックを獲得している時に使うメソッド
+  # 獲得していなければ .finalize_with_lock! を用いる
+  def finalize!(result)
+    RemitRequestResult.create_from_remit_request!(self, result)
     destroy!
+  end
+
+  # lockを獲得しながらRemitRequestをRemitRequestResultに移す
+  def finalize_with_lock!(result)
+    ActiveRecord::Base.transaction do
+      lock!
+      finalize!(result)
+      save!
+    end
   end
 end

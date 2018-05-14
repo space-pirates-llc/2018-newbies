@@ -22,7 +22,7 @@ class RemitService
         raise InsufficientBalanceError unless can_remit?(requested_user_balance, remit_request.amount)
 
         transfer_balance!(user_balance, requested_user_balance, remit_request.amount)
-        finalize_remit_request!(remit_request)
+        remit_request.finalize!(RemitRequestResult::RESULT_ACCEPTED)
 
         release_lock!(lock_targets)
       end
@@ -37,11 +37,6 @@ class RemitService
     def transfer_balance!(user_balance, requested_user_balance, amount)
       requested_user_balance.withdraw!(amount)
       user_balance.deposit!(amount)
-    end
-
-    def finalize_remit_request!(remit_request)
-      RemitRequestResult.create_from_remit_request!(remit_request, RemitRequestResult::RESULT_ACCEPTED)
-      remit_request.destroy!
     end
 
     # 整合性を担保するため悲観的行ロックを獲得する
