@@ -46,6 +46,8 @@ RSpec.describe Api::RemitRequestsController, type: :controller do
     context 'with logged in' do
       let(:user) { create(:user) }
       let(:target) { create(:user) }
+      let(:user_balance) { create(:balance, amount:1000) }
+      let(:target_balance) { create(:balance, amount:1000) }
       let(:remit_request) { create(:remit_request, user: user, target: target, amount: 200) }
       before { login!(user) }
       it do

@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, if: -> { password_digest_changed? }
 
   after_create :create_stripe_customer
-  after_create :create_balance
+  after_create :create_balance!
 
   def stripe
     return @stripe if instance_variable_defined?(:@stripe)
@@ -35,11 +35,5 @@ class User < ApplicationRecord
   rescue Stripe::StripeError => e
     errors.add(:stripe, e.code.to_s.to_sym)
     throw :abort
-  end
-
-  def create_balance
-    if !self.balance
-      self.create_balance!
-    end
   end
 end
