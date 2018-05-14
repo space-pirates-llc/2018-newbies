@@ -54,7 +54,7 @@
               li(:class= "{'is-active': currentRimitTab === 'sent'}")
                 a(@click="currentRimitTab = 'sent'") Sent
               li(:class= "{'is-active': currentRimitTab === 'request'}")
-                a(@click="currentRimitTab = 'request'") request
+                a(@click="currentRimitTab = 'request'") Request
       .columns(v-if="currentRimitTab === 'sent'")
         .column.is-12
           table.table.is-fullwidth
@@ -64,7 +64,7 @@
                 th Amount
             tbody
               tr(v-for="remit in sentRemits")
-                td= '{{remit.user.nickname}}({{remit.user.email}})'
+                td= '{{remit.target.nickname}}({{remit.target.email}})'
                 td= '{{remit.amount}}円'
 
       .columns(v-if="currentRimitTab === 'request'")
