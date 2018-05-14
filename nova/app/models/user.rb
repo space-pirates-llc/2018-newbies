@@ -11,8 +11,8 @@ class User < ApplicationRecord
   has_many :charges, dependent: :destroy
   has_one :credit_card, dependent: :destroy
 
-  validates :nickname, presence: true
-  validates :email, presence: true, uniqueness: true
+  validates :nickname, presence: true, length: { maximum: 32 }
+  validates :email, presence: true, uniqueness: true, length: { maximum: 200 }
 
   after_create :create_stripe_customer
 
