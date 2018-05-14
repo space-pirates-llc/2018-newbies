@@ -44,7 +44,7 @@ class RemitRequest < ApplicationRecord
 
   # RemitRequestをRemitRequestResultに移す
   # 既にremit_requetに対してロックを獲得している時に使うメソッド
-  # 獲得していなければ .finalize_with_lock! を用いる
+  # ロック獲得が必要であれば .finalize_with_lock! を用いること
   def finalize!(result)
     RemitRequestResult.create_from_remit_request!(self, result)
     destroy!
