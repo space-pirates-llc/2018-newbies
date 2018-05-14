@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RemitRequest < ApplicationRecord
-  MIN_REMIT_AMOUNT = 0
+  MIN_REMIT_AMOUNT = 1
   MAX_REMIT_AMOUNT = 100_000
 
   belongs_to :user
