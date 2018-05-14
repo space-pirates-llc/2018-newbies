@@ -20,15 +20,16 @@ module Loginable
   def current_user
     return @current_user if instance_variable_defined?(:@current_user)
 
-    @current_user = User.find_by(id: cookies[COOKIE_NAME].to_s)
+    @current_user = User.find_by(id: cookies.encrypted.signed[COOKIE_NAME])
   end
 
   def current_user=(user)
     @current_user = user
 
     if user
-      cookies.permanent[COOKIE_NAME] = {
+      cookies.encrypted.signed.permanent[COOKIE_NAME] = {
         value: user.id.to_s,
+        httponly: true
       }
     else
       cookies.delete(COOKIE_NAME)
