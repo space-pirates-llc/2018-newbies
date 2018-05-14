@@ -23,8 +23,6 @@ class RemitService
 
         transfer_balance!(user_balance, requested_user_balance, remit_request.amount)
         remit_request.finalize!(RemitRequestResult::RESULT_ACCEPTED)
-
-        release_lock!(lock_targets)
       end
     end
 
@@ -43,12 +41,6 @@ class RemitService
     # デッドロックを防ぐため、id昇順にロックを獲得していく
     def aquire_lock!(balances)
       balances.sort_by(&:id).each(&:lock!)
-    end
-
-    # 整合性を担保するため悲観的行ロックを開放する
-    # デッドロックを防ぐため、aquire_lock!とは逆順で行ロックを開放する
-    def release_lock!(balances)
-      balances.sort_by(&:id).reverse.each(&:save!)
     end
   end
 end

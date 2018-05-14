@@ -38,7 +38,7 @@ class RemitRequest < ApplicationRecord
     finalize_with_lock!(RemitRequestResult::RESULT_REJECTED)
   end
 
-  def canceled!
+  def cancel!
     finalize_with_lock!(RemitRequestResult::RESULT_CANCELED)
   end
 
@@ -55,7 +55,6 @@ class RemitRequest < ApplicationRecord
     ActiveRecord::Base.transaction do
       lock!
       finalize!(result)
-      save!
     end
   end
 end
