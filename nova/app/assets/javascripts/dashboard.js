@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isActiveDeleteCreditCard: false,
       target: "",
       register_notification: "",
+      register_error_messages: "",
       creditCard: {
         brand: "",
         last4: "",
@@ -226,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
           then(function(json) {
             if(json.errors){
                 self.register_notification = "更新に失敗しました"
+                self.register_error_messages += json.errors
             }else{
                 self.register_notification = "更新しました"
             }
@@ -239,9 +241,10 @@ document.addEventListener('DOMContentLoaded', function() {
         api.put('/api/user?attribute=email', { user: this.user }).
           then(function(json) {
             if(json.errors){
-              self.register_notification = "更新に失敗しました"
+                self.register_notification = "更新に失敗しました"
+                self.register_error_messages += json.errors
             }else{
-              self.register_notification = "更新しました"
+                self.register_notification = "更新しました"
             }
             self.user = json;
           });
@@ -254,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
           then(function(json) {
             if(json.errors){
                 self.register_notification = "更新に失敗しました"
+                self.register_error_messages += json.errors
             }else{
                 self.register_notification = "更新しました"
             }
