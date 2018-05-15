@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::RemitRequestsController, type: :controller do
+  include_context 'request from nova site'
+
   let(:user) { create(:user) }
   let(:requested_user) { create(:user) }
   let(:remit_request) { create(:remit_request, user: user, requested_user: requested_user) }
