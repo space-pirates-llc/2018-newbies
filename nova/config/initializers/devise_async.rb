@@ -1,2 +1,2 @@
 # https://github.com/mhfs/devise-async
-#Devise::Async.enabled = true
+Devise::Async.enabled = true
