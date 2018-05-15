@@ -13,7 +13,7 @@ hooks:
   ApplicationStop:
     - location: scripts/stop.sh
       timeout: 300
-      runas: root
+      runas: ubuntu
   BeforeInstall:
     - location: scripts/clean.sh
       timeout: 300
