@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::CreditCardsController, type: :controller do
+  include_context 'request from nova site'
+
   let(:user) { create(:user) }
 
   describe 'GET #show' do
