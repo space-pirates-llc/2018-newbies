@@ -14,6 +14,9 @@ class Api::UsersController < Api::ApplicationController
       current_user.update!(email: user_params[:email]&.downcase)
       render json: current_user
     when 'password'
+      # Password と Password Confirmation の同一性チェック
+      raise ActiveRecord::RecordInvalid.new if user_params[:password] != user_params[:password_confirmation]
+
       current_user.update!(password: user_params[:password], password_confirmation: user_params[:passoword_confirmation])
       render json: current_user
     else
