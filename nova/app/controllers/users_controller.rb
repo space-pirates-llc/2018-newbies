@@ -6,16 +6,21 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(nickname: user_params[:nickname],
-                        email: user_params[:email]&.downcase,
-                        password: user_params[:password],
-                        password_confirmation: user_params[:passoword_confirmation])
-
-    if @user.persisted?
-      self.current_user = @user
-      redirect_to dashboard_path
+    # Password と Password Confirmation の同一性チェック
+    if user_params[:password] != user_params[:password_confirmation]
+      redirect_to signup_path
     else
-      render :new, status: :bad_request
+      @user = User.create(nickname: user_params[:nickname],
+                          email: user_params[:email]&.downcase,
+                          password: user_params[:password],
+                          password_confirmation: user_params[:passoword_confirmation])
+
+      if @user.persisted?
+        self.current_user = @user
+        redirect_to dashboard_path
+      else
+        render :new, status: :bad_request
+      end
     end
   end
 
