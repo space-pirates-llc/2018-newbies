@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
       recvRemits: [],
       sentRemits: [],
       hasCreditCard: hasCreditCard,
+      isRegisteringCreditCard: false,
       isActiveNewRemitForm: false,
       target: "",
       user: {
@@ -117,6 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
       registerCreditCard: function(event) {
         if(event) { event.preventDefault(); }
 
+        this.isRegisteringCreditCard = true;
+
         var self = this;
         stripe.createToken(creditCard).
           then(function(result) {
@@ -124,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
           }).
           then(function() {
             self.hasCreditCard = true;
+          }).
+          finally(function() {
+            self.isRegisteringCreditCard = false;
           });
       },
       addTarget: function(event) {
