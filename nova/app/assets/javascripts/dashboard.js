@@ -79,8 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
         self.user = json;
       });
 
+      api.get('/api/balance').then(function(json) {
+        self.amount = json.amount
+      })
+
       api.get('/api/charges').then(function(json) {
-        self.amount = json.amount;
         self.charges = json.charges;
       });
 
