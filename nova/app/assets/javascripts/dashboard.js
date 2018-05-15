@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var creditCard = elements.create('card');
   var hasCreditCard = creditCardForm.getAttribute('data-found') === 'true';
 
+
+
+
+
+
   var api = {
     query: function(params) {
       var queryString = [];
@@ -73,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
         amount: 0,
       },
     },
+
     beforeMount: function() {
       var self = this;
       api.get('/api/user').then(function(json) {
@@ -83,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
         self.amount = json.amount;
         self.charges = json.charges;
       });
-
       api.get('/api/remit_requests', { status: 'outstanding' }).
         then(function(json) {
           self.recvRemits = json;
