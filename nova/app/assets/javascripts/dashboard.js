@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
       recvRemits: [],
       sentRemits: [],
       hasCreditCard: hasCreditCard,
+      isRegisteringCreditCard: false,
       isActiveNewRemitForm: false,
       isCharging: false,
       target: "",
@@ -89,6 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+      api.get('/api/balance').then(function(json) {
+        self.amount = json.amount
+      })
+
       api.get('/api/remit_requests', { status: 'outstanding' }).
         then(function(json) {
           self.recvRemits = json;
@@ -114,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var self = this;
         api.post('/api/charges', { amount: amount }).
           then(function(json) {
-            self.amount += amount;
+            self.amount += amount; //balanceへのポーリングでやるようにする？
             var strDateTime = json['created_at'];
             json['created_at'] = new Date(strDateTime).toLocaleString();
             self.charges.unshift(json);
@@ -129,6 +134,8 @@ document.addEventListener('DOMContentLoaded', function() {
       registerCreditCard: function(event) {
         if(event) { event.preventDefault(); }
 
+        this.isRegisteringCreditCard = true;
+
         var self = this;
         stripe.createToken(creditCard).
           then(function(result) {
@@ -136,6 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
           }).
           then(function() {
             self.hasCreditCard = true;
+          }).
+          finally(function() {
+            self.isRegisteringCreditCard = false;
           });
       },
       addTarget: function(event) {

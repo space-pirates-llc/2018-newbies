@@ -9,7 +9,7 @@
         .control.is-expanded
           #credit-card(api-key="#{Stripe.public_key}" data-found="#{current_user.credit_card ? 'true' : 'false'}")
         .control.has-text-right
-          button.button.is-small.is-primary(@click="registerCreditCard($event)") Register
+          button.button.is-small.is-primary(@click="registerCreditCard($event)" v-bind:class="{ 'is-loading': isRegisteringCreditCard }") Register
 
   .columns
     .column.is-4

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       end
     end
     resources :remit_request_results, only: %i[index]
+    resource :balance, only: %i[show]
   end
   get '/dashboard', to: 'dashboard#show'
 
