@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2018_05_11_021839) do
 
-  create_table "balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "amount", null: false
     t.datetime "created_at", null: false
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2018_05_11_021839) do
     t.index ["user_id"], name: "index_balances_on_user_id"
   end
 
-  create_table "charge_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "charge_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "amount", null: false
     t.string "stripe_id", null: false
     t.string "result", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2018_05_11_021839) do
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
-  create_table "remit_request_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "remit_request_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "requested_user_id", null: false
     t.integer "amount", null: false
