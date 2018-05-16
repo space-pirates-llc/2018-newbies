@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
       recvRemits: [],
       sentRemits: [],
       hasCreditCard: hasCreditCard,
+      isRegisteringCreditCard: false,
       isActiveNewRemitForm: false,
       target: "",
       user: {
@@ -85,8 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
         self.user = json;
       });
 
+      api.get('/api/balance').then(function(json) {
+        self.amount = json.amount
+      })
+
       api.get('/api/charges').then(function(json) {
-        self.amount = json.amount;
         self.charges = json.charges;
       });
       api.get('/api/remit_requests', { status: 'outstanding' }).
@@ -122,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
       registerCreditCard: function(event) {
         if(event) { event.preventDefault(); }
 
+        this.isRegisteringCreditCard = true;
+
         var self = this;
         stripe.createToken(creditCard).
           then(function(result) {
@@ -129,6 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
           }).
           then(function() {
             self.hasCreditCard = true;
+          }).
+          finally(function() {
+            self.isRegisteringCreditCard = false;
           });
       },
       addTarget: function(event) {

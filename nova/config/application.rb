@@ -32,5 +32,7 @@ module Nova
 
     # To use sidekiq
     config.active_job.queue_adapter = :sidekiq
+    config.time_zone = 'Asia/Tokyo'
+    config.active_record.default_timezone = :utc
   end
 end
