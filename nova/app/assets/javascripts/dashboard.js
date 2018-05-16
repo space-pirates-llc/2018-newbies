@@ -79,10 +79,14 @@ document.addEventListener('DOMContentLoaded', function() {
         self.user = json;
       });
 
-      api.get('/api/charges').then(function(json) {
-        self.amount = json.amount;
-        self.charges = json.charges;
-      });
+        api.get('/api/charges').then(function(json) {
+            self.charges = json.charges;
+            for (var i = 0; i < self.charges.length; i++){
+                var strDateTime = self.charges[i]['created_at'];
+                var myDate = new Date(strDateTime);
+                self.charges[i]['created_at'] = myDate.toLocaleString();
+            }
+        });
 
       api.get('/api/remit_requests', { status: 'outstanding' }).
         then(function(json) {
