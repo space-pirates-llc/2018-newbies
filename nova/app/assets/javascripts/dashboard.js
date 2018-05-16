@@ -90,9 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
         self.amount = json.amount
       })
 
-      api.get('/api/charges').then(function(json) {
-        self.charges = json.charges;
-      });
       api.get('/api/remit_requests', { status: 'outstanding' }).
         then(function(json) {
           self.recvRemits = json;
