@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sentRemits: [],
       hasCreditCard: hasCreditCard,
       isActiveNewRemitForm: false,
+      isCharging: false,
       target: "",
       user: {
         email: "",
@@ -108,6 +109,8 @@ document.addEventListener('DOMContentLoaded', function() {
       charge: function(amount, event) {
         if(event) { event.preventDefault(); }
 
+        this.isCharging = true;
+
         var self = this;
         api.post('/api/charges', { amount: amount }).
           then(function(json) {
@@ -115,6 +118,9 @@ document.addEventListener('DOMContentLoaded', function() {
             var strDateTime = json['created_at'];
             json['created_at'] = new Date(strDateTime).toLocaleString();
             self.charges.unshift(json);
+          }).
+          finally(function(){
+            self.isCharging = false
           }).
           catch(function(err) {
             console.error(err);

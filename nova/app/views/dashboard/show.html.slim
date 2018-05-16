@@ -18,10 +18,10 @@
     .column.is-8
       .heading Charge
       .buttons
-        a.button(:disabled="!hasCreditCard" @click="charge(100, $event)") 100円
-        a.button(:disabled="!hasCreditCard" @click="charge(500, $event)") 500円
-        a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)") 1,000円
-        a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)") 5,000円
+        a.button(:disabled="!hasCreditCard" @click="charge(100, $event)" v-bind:class="{ 'is-loading': isCharging }") 100円
+        a.button(:disabled="!hasCreditCard" @click="charge(500, $event)" v-bind:class="{ 'is-loading': isCharging }") 500円
+        a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)" v-bind:class="{ 'is-loading': isCharging }") 1,000円
+        a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)" v-bind:class="{ 'is-loading': isCharging }") 5,000円
 
   .columns.
     .column.is-12
