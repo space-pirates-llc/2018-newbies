@@ -4,17 +4,20 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable
-  has_many :received_remit_requests, class_name: 'RemitRequest', foreign_key: :requested_user_id, dependent: :destroy
+         :recoverable, :rememberable, :trackable, :validatable,
+         :async, :confirmable
+  has_many :received_remit_requests, class_name: 'RemitRequest', foreign_key: :requested_user_id,
+           dependent: :destroy
   has_many :sent_remit_requests, class_name: 'RemitRequest', dependent: :destroy
-  has_many :received_remit_request_results, class_name: 'RemitRequestResult', foreign_key: :requested_user_id
+  has_many :received_remit_request_results, class_name: 'RemitRequestResult',
+           foreign_key: :requested_user_id
   has_many :sent_remit_request_results, class_name: 'RemitRequestResult', foreign_key: :user_id
   has_many :charges, dependent: :destroy
   has_one :credit_card, dependent: :destroy
   has_one :balance, dependent: :destroy
 
-  validates :nickname, presence: true
-  validates :email, presence: true, uniqueness: true
+  validates :nickname, presence: true, length: { maximum: 32 }
+  validates :email, presence: true, uniqueness: true, length: { maximum: 254 }
 
   after_create :create_stripe_customer
   after_create :create_balance
@@ -36,7 +39,6 @@ class User < ApplicationRecord
     )
     update(stripe_id: customer.id)
   rescue Stripe::StripeError => e
-    pry.inspect
     errors.add(:stripe, e.code.to_s.to_sym)
     throw :abort
   end
