@@ -4,12 +4,12 @@ FactoryBot.define do
   factory :remit_request do
     user { build(:user) }
     target { build(:user) }
-    amount 100
+    amount { 100 }
 
     trait :outstanding do
-      accepted_at nil
-      rejected_at nil
-      canceled_at nil
+      accepted_at { nil }
+      rejected_at { nil }
+      canceled_at { nil }
     end
 
     trait :accepted do
