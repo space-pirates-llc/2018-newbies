@@ -27,8 +27,10 @@ module Loginable
     @current_user = user
 
     if user
-      cookies.permanent[COOKIE_NAME] = {
-          value: user.id.to_s,
+
+      # cookies.permanent.signed
+      cookies.permanent.signed[COOKIE_NAME] = {
+        value: user.id.to_s,
       }
     else
       cookies.delete(COOKIE_NAME)
