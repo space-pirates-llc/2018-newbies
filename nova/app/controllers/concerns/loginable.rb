@@ -20,7 +20,7 @@ module Loginable
   def current_user
     return @current_user if instance_variable_defined?(:@current_user)
 
-    @current_user = User.find_by(id: cookies[COOKIE_NAME].to_s)
+    @current_user = User.find_by(id: cookies.signed[COOKIE_NAME].to_s)
   end
 
   def current_user=(user)
