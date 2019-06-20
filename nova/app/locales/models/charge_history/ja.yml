@@ -1,0 +1,11 @@
+ja:
+  activerecord:
+    models:
+      charge_history: "ChargeHistory"
+    attributes:
+      charge_history:
+        id: "ID"
+        amount: "Amount"
+        ch_id: "ChId"
+        result: "Result"
+        user: "User"

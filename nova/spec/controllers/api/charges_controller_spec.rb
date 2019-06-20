@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::ChargesController, type: :controller do
+  include_context 'request from nova site'
+
   let(:user) { create(:user) }
 
   describe 'GET #index' do
@@ -13,7 +15,7 @@ RSpec.describe Api::ChargesController, type: :controller do
     end
 
     context 'with logged in' do
-      before { login!(user) }
+      before { sign_in(user) }
 
       it { is_expected.to have_http_status(:ok) }
     end
@@ -29,7 +31,7 @@ RSpec.describe Api::ChargesController, type: :controller do
     context 'with logged in' do
       before do
         create(:credit_card, user: user, source: stripe.generate_card_token)
-        login!(user)
+        sign_in(user)
       end
 
       it { is_expected.to have_http_status(:created) }

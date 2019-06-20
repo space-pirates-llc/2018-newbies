@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :charge do
     user { build(:user) }
-    amount 100
+    amount { 100 }
   end
 end

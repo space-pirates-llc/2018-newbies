@@ -2,6 +2,9 @@
 
 class ApplicationController < ActionController::Base
   include Loginable
+  protect_from_forgery with: :exception, prepend: true
 
-  protect_from_forgery with: :exception
+  def after_sign_in_path_for(users)
+    dashboard_path
+  end
 end

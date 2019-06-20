@@ -2,6 +2,10 @@
   = javascript_include_tag 'https://js.stripe.com/v3/'
 
 #dashboard
+  .columns
+    .column.is-12
+      error-box
+
   .columns(:class="{ 'is-hidden': hasCreditCard }")
     .column.is-12
       .heading Credit Card
@@ -9,7 +13,7 @@
         .control.is-expanded
           #credit-card(api-key="#{Stripe.public_key}" data-found="#{current_user.credit_card ? 'true' : 'false'}")
         .control.has-text-right
-          button.button.is-small.is-primary(@click="registerCreditCard($event)") Register
+          button.button.is-small.is-primary(@click="registerCreditCard($event)" v-bind:class="{ 'is-loading': isRegisteringCreditCard }") Register
 
   .columns
     .column.is-4
@@ -18,19 +22,19 @@
     .column.is-8
       .heading Charge
       .buttons
-        a.button(:disabled="!hasCreditCard" @click="charge(100, $event)") 100円
-        a.button(:disabled="!hasCreditCard" @click="charge(500, $event)") 500円
-        a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)") 1,000円
-        a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)") 5,000円
+        a.button(:disabled="!hasCreditCard" @click="charge(100, $event)" v-bind:class="{ 'is-loading': isCharging }") 100円
+        a.button(:disabled="!hasCreditCard" @click="charge(500, $event)" v-bind:class="{ 'is-loading': isCharging }") 500円
+        a.button(:disabled="!hasCreditCard" @click="charge(1000, $event)" v-bind:class="{ 'is-loading': isCharging }") 1,000円
+        a.button(:disabled="!hasCreditCard" @click="charge(5000, $event)" v-bind:class="{ 'is-loading': isCharging }") 5,000円
 
-  .columns.
+  .columns
     .column.is-12
       .is-clearfix
         .is-pulled-right
           .tabs.is-small
             ul
               li(:class= "{'is-active': currentTab === 'settings'}")
-                a(@click="currentTab = 'settings'") Settings
+                a(@click="currentTab = 'contact'") Contact
         .tabs.is-small
           ul
             li(:class= "{'is-active': currentTab === 'remits'}")
@@ -63,37 +67,41 @@
 
   .columns(v-if="currentTab === 'charge'")
     .column.is-12
-      .heading Charge Log
-      table.table.is-fullwidth
-        thead
-          tr
-            th Amount
-            th.has-text-right Date
-        tbody
-          tr(v-for="charge in charges")
-            td= '{{charge.amount}}円'
-            td.has-text-right= '{{charge.created_at}}'
+      .columns(v-if="charges.length != 0")
+        .column.is-12
+          .heading Charge in Process
+          table.table.is-fullwidth
+            thead
+              tr
+                th Amount
+                th Status
+                th.has-text-right Date
+            tbody
+              tr(v-for="charge in charges")
+                td= '{{charge.amount}}円'
+                td= 'charging'
+                td.has-text-right= '{{charge.created_at}}'
+      .columns
+        .column.is-12
+          .heading Charge History
+          table.table.is-fullwidth
+            thead
+              tr
+                th Amount
+                th Status
+                th.has-text-right Date
+            tbody
+              tr(v-for="charge_history in charge_histories")
+                td= '{{charge_history.amount}}円'
+                td= '{{charge_history.result}}'
+                td.has-text-right= '{{charge_history.created_at}}'
 
-  .columns(v-if="currentTab === 'settings'")
+  .columns(v-if="currentTab === 'contact'")
     .column.is-12
-      .heading Settings
-
-      form(@submit="updateUser($event)")
-        .field
-          label.label Nickname
-          .control
-            input.input(type="text" v-model="user.nickname")
-        .field
-          label.label E-Mail
-          .control
-            input.input(type="email" v-model="user.email")
-        .field
-          label.label Password
-          .control
-            input.input(type="password" v-model="user.password")
-        .field
-          .control.has-text-right
-            button.button.is-primary(type="submit") Update
+      .heading Contact
+      .section.has-text-centered If you want to change your information. Please contact us
+      .span.has-text-centered
+        =mail_to "akitaka0405@gmail.com"
 
   .modal(:class='{ "is-active": isActiveNewRemitForm }')
     .modal-background(@click.prevent="isActiveNewRemitForm = false")

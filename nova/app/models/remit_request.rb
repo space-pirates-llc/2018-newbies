@@ -2,31 +2,49 @@
 
 class RemitRequest < ApplicationRecord
   belongs_to :user
-  belongs_to :target, class_name: 'User'
+  belongs_to :requested_user, class_name: 'User'
 
-  validates :amount, numericality: { greater_then: 0 }
+  validates :user_id, presence: true
+  validates :requested_user_id, presence: true
+  validates :amount, presence: true, numericality: { only_integer: true,
+                                                     greater_than_or_equal_to: Constants::MIN_REMIT_AMOUNT,
+                                                     less_than_or_equal_to: Constants::MAX_REMIT_AMOUNT, }
 
-  scope :outstanding, ->(at = Time.current) { not_accepted(at).not_rejected(at).not_canceled(at) }
-  scope :accepted, ->(at = Time.current) { where(RemitRequest.arel_table[:accepted_at].lteq(at)) }
-  scope :not_accepted, ->(at = Time.current) { where(accepted_at: nil).or(where(RemitRequest.arel_table[:accepted_at].gt(at))) }
-  scope :rejected, ->(at = Time.current) { where(RemitRequest.arel_table[:rejected_at].lteq(at)) }
-  scope :not_rejected, ->(at = Time.current) { where(rejected_at: nil).or(where(RemitRequest.arel_table[:rejected_at].gt(at))) }
-  scope :canceled, ->(at = Time.current) { where(RemitRequest.arel_table[:canceled_at].lteq(at)) }
-  scope :not_canceled, ->(at = Time.current) { where(canceled_at: nil).or(where(RemitRequest.arel_table[:canceled_at].gt(at))) }
+  validate :requested_user_should_be_different
 
-  def outstanding?(at = Time.current)
-    !accepted?(at) && !rejected?(at) && !canceled?(at)
+  def accept!
+    RemitService.execute!(self)
   end
 
-  def accepted?(at = Time.current)
-    accepted_at && accepted_at <= at
+  def reject!
+    finalize_with_lock!(RemitRequestResult::RESULT_REJECTED)
   end
 
-  def rejected?(at = Time.current)
-    rejected_at && rejected_at <= at
+  def cancel!
+    finalize_with_lock!(RemitRequestResult::RESULT_CANCELED)
   end
 
-  def canceled?(at = Time.current)
-    canceled_at && canceled_at <= at
+  # RemitRequestをRemitRequestResultに移す
+  # 既にremit_requetに対してロックを獲得している時に使うメソッド
+  # ロック獲得が必要であれば .finalize_with_lock! を用いること
+  def finalize!(result)
+    RemitRequestResult.create_from_remit_request!(self, result)
+    destroy!
+  end
+
+  # lockを獲得しながらRemitRequestをRemitRequestResultに移す
+  def finalize_with_lock!(result)
+    ActiveRecord::Base.transaction do
+      lock!
+      finalize!(result)
+    end
+  end
+
+  private
+
+  def requested_user_should_be_different
+    return if user != requested_user
+
+    errors.add(:user, 'Cannot request a remit to yourself')
   end
 end

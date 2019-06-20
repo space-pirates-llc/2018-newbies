@@ -5,6 +5,9 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.2.0'
 
 gem 'bootsnap', require: false
+gem 'devise'
+gem 'devise-async'
+gem 'aws-ses'
 
 gem 'jbuilder', '~> 2.5'
 gem 'mysql2', '>= 0.3.18', '< 0.6.0'
@@ -31,7 +34,7 @@ gem 'aws-sdk-codedeploy'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-
+  gem 'pry-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
 end
@@ -41,9 +44,12 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 
   gem 'rubocop', require: false
   gem 'spring-commands-rspec', require: false
+  gem 'letter_opener'
 end
 
 group :test do
@@ -51,6 +57,7 @@ group :test do
   gem 'database_rewinder'
   gem 'ffaker'
   gem 'rails-controller-testing'
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'stripe-ruby-mock', require: 'stripe_mock'

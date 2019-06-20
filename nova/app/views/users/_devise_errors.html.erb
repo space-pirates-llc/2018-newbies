@@ -1,0 +1,14 @@
+<% if @user.errors.present? || flash.present? %>
+  <article class="message is-danger">
+    <div class="message-body">
+      <ul>
+        <% flash.each do |key, value| %>
+          <%= content_tag(:li, value, class: "#{key}") %>
+        <% end %>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  </article>
+<% end %>

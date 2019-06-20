@@ -19,7 +19,13 @@ $ rbenv install -s
 # すでに該当バージョンがインストール済みの場合はスキップされます。
 ```
 
-2) 環境構築のため、 `bin/setup` を実行します。
+2) 念のため `.nod-version` で定義された必要な Node.js のバージョンをインストールします。
+
+```shell
+$ ndenv install -s
+```
+
+3) 環境構築のため、 `bin/setup` を実行します。
 
 ```shell
 $ ./bin/setup
@@ -38,7 +44,7 @@ $ ./bin/setup
   - メンターや講師に相談してください
   - 無根拠に環境をいじるとかえって状況が悪化する可能性があります
 
-3) Rails の起動
+4) Rails の起動
 
 ```shell
 $ bin/rails server  # サーバーの起動
@@ -46,7 +52,7 @@ $ bin/rails console # デバッグコンソール
 $ bin/rails generate [GENERATOR] [OPTIONS] # ジェネレータの実行
 ```
 
-4) 設定ファイルや Gemfile を書き換えた際、必ず反映させたい場合
+5) 設定ファイルや Gemfile を書き換えた際、必ず反映させたい場合
 
 ```shell
 $ bin/spring stop && bin/update

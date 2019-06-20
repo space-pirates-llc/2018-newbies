@@ -2,6 +2,11 @@
 
 set -e
 
+eval "$(rbenv init -)"
+
+cd /var/nova/current
+export RAILS_ENV=production
+
 if [ -f /var/nova/current/tmp/pids/puma.pid ]; then
-  su -l ubuntu -c 'kill -s TERM `cat /var/nova/current/tmp/pids/puma.pid`'
+  kill -s TERM $(cat /var/nova/current/tmp/pids/puma.pid)
 fi
