@@ -21,12 +21,6 @@ $ docker-compose up --build
 `4242424242424242`
 
 
-```console
-git clone git@github.com:cobafan/2018-newbies.git
-cd 2018-newbies/nova
-
-```
-
 ### Run Rails App with Docker
 
 ```console
